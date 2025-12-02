@@ -1,0 +1,141 @@
+@startuml
+!pragma layout smetana
+
+' ---------- Basale domæneklasser ----------
+class User {
+  - id : int
+  - name : String
+  - email : String
+  --
+  + getBudget() : Budget
+  + getTodoLists() : List<TodoList>
+  + getCurrentShoppingList() : ShoppingList
+}
+
+class Budget {
+  - id : int
+  - owner : User
+  --
+  + getMonthlyBudgets() : List<MonthlyBudget>
+  + getMonthlyBudget(year : int, month : int) : MonthlyBudget
+}
+
+class MonthlyBudget {
+  - id : int
+  - year : int
+  - month : int
+  - income : double
+  --
+  + getCategories() : List<BudgetCategory>
+  + getTotalExpenses() : double
+  + getNetAmount() : double
+}
+
+class BudgetCategory {
+  - id : int
+  - name : String
+  --
+  + getTransactions() : List<Transaction>
+  + getTotalForCategory() : double
+}
+
+class Transaction {
+  - id : int
+  - description : String
+  - amount : double
+  - date : LocalDate
+  - type : TransactionType
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+' ---------- To-do / flytte-checkliste ----------
+class TodoList {
+  - id : int
+  - title : String
+  - type : TodoListType   ' fx MOVE_OUT eller PERSONAL
+  --
+  + getItems() : List<TodoItem>
+  + addItem(text : String) : void
+  + removeItem(item : TodoItem) : void
+}
+
+enum TodoListType {
+  MOVE_OUT
+  PERSONAL
+}
+
+class TodoItem {
+  - id : int
+  - text : String
+  - done : boolean
+  - dueDate : LocalDate
+  --
+  + markDone() : void
+  + markUndone() : void
+}
+
+' ---------- Handleliste + historik ----------
+class ShoppingList {
+  - id : int
+  - createdAt : LocalDateTime
+  - active : boolean
+  --
+  + getItems() : List<ShoppingItem>
+  + addItem(name : String, quantity : int) : void
+  + removeItem(item : ShoppingItem) : void
+  + clear() : void          ' kaldes når man har handlet
+}
+
+class ShoppingItem {
+  - id : int
+  - name : String
+  - quantity : int
+  - bought : boolean
+  --
+  + markBought() : void
+}
+
+class ShoppingListHistory {
+  - id : int
+  --
+  + save(list : ShoppingList) : void
+  + getPreviousLists() : List<ShoppingList>
+}
+
+' ---------- Hjælp / spørgsmål-svar ----------
+class HelpTopic {
+  - id : int
+  - title : String          ' fx "Vaske hvidt tøj"
+  - questionText : String   ' "Hvor mange grader..."
+  - answerText : String     ' "Som udgangspunkt 60° ..."
+  - category : String       ' fx "Vask", "Rengøring"
+}
+
+class HelpService {
+  --
+  + findAnswer(query : String) : HelpTopic
+}
+
+' ---------- Relationer ----------
+
+User "1" -- "1" Budget
+Budget "1" o-- "*" MonthlyBudget
+MonthlyBudget "1" o-- "*" BudgetCategory
+BudgetCategory "1" o-- "*" Transaction
+
+User "1" o-- "*" TodoList
+TodoList "1" o-- "*" TodoItem
+
+User "1" o-- "1" ShoppingList      : current
+User "1" o-- "1" ShoppingListHistory
+ShoppingList "1" o-- "*" ShoppingItem
+ShoppingListHistory "1" o-- "*" ShoppingList
+
+HelpService ..> HelpTopic : uses
+User ..> HelpService : "stiller spørgsmål"
+
+@enduml

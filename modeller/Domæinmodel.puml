@@ -1,0 +1,24 @@
+@startuml
+!pragma layout smetana
+
+class User
+class Budget
+class BudgetCategory
+class Transaction
+class TodoList
+class TodoItem
+class HelpQuestion
+class HelpAnswer
+
+' Relationer
+User "1" -- "1" Budget
+Budget "1" o-- "*" BudgetCategory
+BudgetCategory "1" o-- "*" Transaction
+
+User "1" o-- "*" TodoList
+TodoList "1" o-- "*" TodoItem
+
+User "1" o-- "*" HelpQuestion
+HelpQuestion "0..1" --> HelpAnswer
+
+@enduml
