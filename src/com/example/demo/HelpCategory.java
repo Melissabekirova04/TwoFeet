@@ -1,3 +1,5 @@
+package com.example.demo;
+
 public enum HelpCategory {
     LAUNDRY,       // Tøjvask
     ELECTRONICS,   // Køleskab/fryser, strøm osv.

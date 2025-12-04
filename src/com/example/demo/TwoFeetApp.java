@@ -1,13 +1,17 @@
+package com.example.demo;
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.util.List;
 
 public class TwoFeetApp extends Application {
@@ -24,6 +28,73 @@ public class TwoFeetApp extends Application {
         ComboBox<HelpCategory> categoryBox = new ComboBox<>();
         categoryBox.getItems().addAll(HelpCategory.values());
         categoryBox.setPromptText("Vælg kategori");
+
+        //Skift side knap , Højre
+        Button todo = new Button("Todo");
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+// HBox der ligger over svarboksen
+        HBox answerTopBar = new HBox(10, new Label("Svar:"), spacer, todo);
+        answerTopBar.setPadding(new Insets(0, 0, 5, 0));
+        answerTopBar.setAlignment(Pos.CENTER_LEFT);   // Label til venstre, knap til højre
+
+        TextArea answerArea = new TextArea();
+        answerArea.setEditable(false);
+        answerArea.setWrapText(true);
+
+        VBox centerPane = new VBox(10,
+                answerTopBar,
+                answerArea
+        );
+        centerPane.setPadding(new Insets(10));
+
+        todo.setOnAction(e -> {
+            try {
+                DbManager dbManager = new DbManager();
+                dbManager.connect();
+
+                // Load FXML
+                URL url = getClass().getResource("/todo.fxml");
+                if (url == null) {
+                    throw new RuntimeException("FXML file not found: /todo.fxml");
+                }
+                System.out.println("Loading FXML from: " + url);
+
+                FXMLLoader loader = new FXMLLoader(url);
+                Parent root = loader.load();
+
+                // Get controller and inject DbManager + callback
+                TodoController controller = loader.getController();
+                if (controller == null) {
+                    throw new RuntimeException("Controller returned null from FXML!");
+                } else {
+                    controller.initData(dbManager, () -> {
+                        try {
+                            refreshTasks(); // Refresh your main task list after adding
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    });
+                }
+
+                // New stage
+                Stage stageTodo = new Stage();
+                stageTodo.setTitle("Add Todo Task");
+                stageTodo.initOwner(todo.getScene().getWindow());
+                stageTodo.initModality(Modality.APPLICATION_MODAL);
+                stageTodo.setScene(new Scene(root));
+                stageTodo.showAndWait();
+
+            } catch (Exception ex) {
+                ex.printStackTrace(); // Full stacktrace for debugging
+                // Show friendly error alert
+                Alert alert = new Alert(Alert.AlertType.ERROR,
+                        "Kunne ikke åbne todo-dialog:\n" + ex.getMessage(),
+                        ButtonType.OK);
+                alert.showAndWait();
+            }
+        });
+
 
         // vis enum-navne pænere (dansk tekst)
         categoryBox.setCellFactory(cb -> new ListCell<>() {
@@ -60,7 +131,7 @@ public class TwoFeetApp extends Application {
         leftPane.setPrefWidth(280);
 
         // --- Midten: svar-område ---
-        TextArea answerArea = new TextArea();
+       /* TextArea answerArea = new TextArea();
         answerArea.setEditable(false);
         answerArea.setWrapText(true);
 
@@ -68,7 +139,7 @@ public class TwoFeetApp extends Application {
                 new Label("Svar:"),
                 answerArea
         );
-        centerPane.setPadding(new Insets(10));
+        centerPane.setPadding(new Insets(10));*/
 
         // --- Nederst: fritekst-spørgsmål ---
         TextField questionField = new TextField();
@@ -125,14 +196,17 @@ public class TwoFeetApp extends Application {
         stage.show();
     }
 
+    private void refreshTasks() {
+    }
+
     // Hjælpe-metode: pæne danske navne til kategorier
     private String getCategoryName(HelpCategory c) {
         return switch (c) {
-            case LAUNDRY -> "Tøjvask";
-            case ELECTRONICS -> "Elektronik (køl/frys)";
-            case MOVE_IN -> "Inden indflytning";
-            case STARTERPACK -> "Udflytnings-starterpack";
-            case CLEANING -> "Rengøringsrutine";
+            case HelpCategory.LAUNDRY -> "Tøjvask";
+            case HelpCategory.ELECTRONICS -> "Elektronik (køl/frys)";
+            case HelpCategory.MOVE_IN -> "Inden indflytning";
+            case HelpCategory.STARTERPACK -> "Udflytnings-starterpack";
+            case HelpCategory.CLEANING -> "Rengøringsrutine";
         };
     }
 
