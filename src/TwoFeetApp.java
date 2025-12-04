@@ -3,7 +3,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -12,127 +11,119 @@ import java.util.List;
 
 public class TwoFeetApp extends Application {
 
-    private final HelpService helpService = new HelpService();
+    private HelpService helpService = new HelpService();
+    private Stage primaryStage;
+
+    private HelpCategory selectedCategory;
+    private HelpTopic selectedTopic;
 
     @Override
     public void start(Stage stage) {
-        // --- Top: Titel ---
-        Label header = new Label("TwoFeet – din udflytnings-hjælper");
-        header.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        this.primaryStage = stage;
+        showCategoryPage();
+        primaryStage.setTitle("TwoFeet – udflytningshjælper");
+        primaryStage.show();
+    }
 
-        // --- Venstre: kategori + emneliste ---
-        ComboBox<HelpCategory> categoryBox = new ComboBox<>();
-        categoryBox.getItems().addAll(HelpCategory.values());
-        categoryBox.setPromptText("Vælg kategori");
+    // ============== SIDE 1: VÆLG KATEGORI ==============
+    private void showCategoryPage() {
+        selectedCategory = null;
 
-        // vis enum-navne pænere (dansk tekst)
-        categoryBox.setCellFactory(cb -> new ListCell<>() {
-            @Override
-            protected void updateItem(HelpCategory item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? null : getCategoryName(item));
-            }
-        });
-        categoryBox.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(HelpCategory item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? "Vælg kategori" : getCategoryName(item));
-            }
-        });
+        Label title = new Label("Vælg en kategori");
+        title.setStyle("-fx-font-size: 22px; -fx-font-weight: bold;");
 
-        ListView<HelpTopic> topicList = new ListView<>();
-        topicList.setCellFactory(lv -> new ListCell<>() {
-            @Override
-            protected void updateItem(HelpTopic item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? null : item.getTitle());
+        ListView<String> listView = new ListView<>();
+        for (HelpCategory c : HelpCategory.values()) {
+            listView.getItems().add(getCategoryName(c));
+        }
+
+        Button btnNext = new Button("Frem →");
+        btnNext.setDisable(true);
+
+        listView.getSelectionModel().selectedIndexProperty().addListener((obs, oldV, newV) -> {
+            if (newV.intValue() >= 0) {
+                selectedCategory = HelpCategory.values()[newV.intValue()];
+                btnNext.setDisable(false);
             }
         });
 
-        VBox leftPane = new VBox(10,
-                new Label("Kategori:"),
-                categoryBox,
-                new Label("Emner:"),
-                topicList
-        );
-        leftPane.setPadding(new Insets(10));
-        leftPane.setPrefWidth(280);
+        btnNext.setOnAction(e -> showTopicsPage());
 
-        // --- Midten: svar-område ---
-        TextArea answerArea = new TextArea();
+        VBox root = new VBox(15, title, listView, btnNext);
+        root.setPadding(new Insets(15));
+        root.setAlignment(Pos.TOP_LEFT);
+
+        primaryStage.setScene(new Scene(root, 500, 400));
+    }
+
+    // ============== SIDE 2: VÆLG EMNE ==============
+    private void showTopicsPage() {
+        selectedTopic = null;
+
+        Label title = new Label("Kategori: " + getCategoryName(selectedCategory));
+        title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+        List<HelpTopic> topics = helpService.getTopicsByCategory(selectedCategory);
+        ListView<String> listView = new ListView<>();
+        for (HelpTopic t : topics) {
+            listView.getItems().add(t.getTitle());
+        }
+
+        Button btnBack = new Button("← Tilbage");
+        Button btnNext = new Button("Frem →");
+        btnNext.setDisable(true);
+
+        listView.getSelectionModel().selectedIndexProperty().addListener((obs, oldV, newV) -> {
+            if (newV.intValue() >= 0) {
+                selectedTopic = topics.get(newV.intValue());
+                btnNext.setDisable(false);
+            }
+        });
+
+        btnBack.setOnAction(e -> showCategoryPage());
+        btnNext.setOnAction(e -> showTopicDetailPage());
+
+        HBox buttons = new HBox(10, btnBack, btnNext);
+        buttons.setAlignment(Pos.CENTER_LEFT);
+
+        VBox root = new VBox(10, title, listView, buttons);
+        root.setPadding(new Insets(15));
+
+        primaryStage.setScene(new Scene(root, 600, 450));
+    }
+
+    // ============== SIDE 3: SVAR ==============
+    private void showTopicDetailPage() {
+        Label title = new Label(selectedTopic.getTitle());
+        title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+        TextArea answerArea = new TextArea(selectedTopic.getAnswerText());
         answerArea.setEditable(false);
         answerArea.setWrapText(true);
 
-        VBox centerPane = new VBox(10,
-                new Label("Svar:"),
-                answerArea
-        );
-        centerPane.setPadding(new Insets(10));
+        Button btnBackToTopics = new Button("← Tilbage");
+        Button btnBackToStart = new Button("⟲ Til start");
 
-        // --- Nederst: fritekst-spørgsmål ---
-        TextField questionField = new TextField();
-        questionField.setPromptText("Skriv dit eget spørgsmål her (fx: Hvordan vasker jeg hvidt tøj?)");
-        Button askButton = new Button("Spørg");
+        btnBackToTopics.setOnAction(e -> showTopicsPage());
+        btnBackToStart.setOnAction(e -> showCategoryPage());
 
-        HBox bottomPane = new HBox(10, questionField, askButton);
-        bottomPane.setPadding(new Insets(10));
-        bottomPane.setAlignment(Pos.CENTER_LEFT);
+        HBox buttonRow = new HBox(10, btnBackToTopics, btnBackToStart);
+        buttonRow.setAlignment(Pos.CENTER_LEFT);
 
-        // --- Event-håndtering ---
+        VBox root = new VBox(10, title, new Label("Svar:"), answerArea, buttonRow);
+        root.setPadding(new Insets(15));
 
-        // Når man vælger en kategori
-        categoryBox.setOnAction(e -> {
-            HelpCategory selected = categoryBox.getValue();
-            if (selected != null) {
-                List<HelpTopic> topics = helpService.getTopicsByCategory(selected);
-                topicList.getItems().setAll(topics);
-            }
-        });
-
-        // Når man klikker på et emne
-        topicList.getSelectionModel().selectedItemProperty().addListener((obs, oldTopic, newTopic) -> {
-            if (newTopic != null) {
-                answerArea.setText(newTopic.getAnswerText());
-            }
-        });
-
-        // Fritekst-spørgsmål
-        askButton.setOnAction(e -> {
-            String q = questionField.getText();
-            if (q == null || q.isBlank()) {
-                return;
-            }
-            String answer = helpService.ask(q);
-            answerArea.setText(answer);
-        });
-
-        // Enter i tekstfeltet = samme som knappen
-        questionField.setOnAction(askButton.getOnAction());
-
-        // --- Layout ---
-        BorderPane root = new BorderPane();
-        BorderPane.setMargin(header, new Insets(10));
-
-        root.setTop(header);
-        root.setLeft(leftPane);
-        root.setCenter(centerPane);
-        root.setBottom(bottomPane);
-
-        Scene scene = new Scene(root, 900, 500);
-        stage.setTitle("TwoFeet – udflytnings-hjælper");
-        stage.setScene(scene);
-        stage.show();
+        primaryStage.setScene(new Scene(root, 700, 500));
     }
 
-    // Hjælpe-metode: pæne danske navne til kategorier
+    // ============== Hjælp: pæne navne til kategorier ==============
     private String getCategoryName(HelpCategory c) {
         return switch (c) {
             case LAUNDRY -> "Tøjvask";
             case ELECTRONICS -> "Elektronik (køl/frys)";
             case MOVE_IN -> "Inden indflytning";
-            case STARTERPACK -> "Udflytnings-starterpack";
-            case CLEANING -> "Rengøringsrutine";
+            case STARTERPACK -> "Starterpack";
+            case CLEANING -> "Rengøring";
         };
     }
 
