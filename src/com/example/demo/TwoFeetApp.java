@@ -1,3 +1,6 @@
+package com.example.demo;
+
+import com.example.demo.HelpService;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

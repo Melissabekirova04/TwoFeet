@@ -12,6 +12,26 @@ class User {
   + getCurrentShoppingList() : ShoppingList
 }
 
+class FrontPageController {
+   + start
+}
+
+class LoginPageController{
+    + start
+    }
+
+class RegisterController{
+    +start
+    }
+
+class mainPageController{
+    +start
+    }
+
+
+
+
+
 class Budget {
   - id : int
   - owner : User
@@ -48,6 +68,7 @@ class Transaction {
 }
 
 enum TransactionType {
+'klasse eller enum
   INCOME
   EXPENSE
 }
@@ -63,10 +84,6 @@ class TodoList {
   + removeItem(item : TodoItem) : void
 }
 
-enum TodoListType {
-  MOVE_OUT
-  PERSONAL
-}
 
 class TodoItem {
   - id : int
@@ -117,7 +134,7 @@ class HelpTopic {
 
 class HelpService {
   --
-  + findAnswer(query : String) : HelpTopic
+  + findAnswer
 }
 
 ' ---------- Relationer ----------
