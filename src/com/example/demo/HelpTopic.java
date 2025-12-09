@@ -1,3 +1,5 @@
+package com.example.demo;
+
 import java.util.List;
 
 public class HelpTopic {
@@ -53,7 +55,7 @@ public class HelpTopic {
 
     @Override
     public String toString() {
-        return "HelpTopic{" +
+        return "com.example.demo.HelpTopic{" +
                 "title='" + title + '\'' +
                 ", category=" + category +
                 '}';
