@@ -19,12 +19,34 @@ public class TwoFeetApp extends Application {
     private HelpCategory selectedCategory;
     private HelpTopic selectedTopic;
 
+    // NYT: mulighed for at starte direkte i en kategori
+    private HelpCategory initialCategory;
+    private boolean skipCategoryPage;
+
+    public TwoFeetApp() {
+        // standard: vis kategorilisten først
+    }
+
+    // NYT: den constructor du kalder fra MoveInEssentialsController
+    public TwoFeetApp(HelpCategory initialCategory, boolean skipCategoryPage) {
+        this.initialCategory = initialCategory;
+        this.skipCategoryPage = skipCategoryPage;
+    }
 
     @Override
     public void start(Stage stage) {
         this.primaryStage = stage;
-        showCategoryPage();
-        primaryStage.setTitle("TwoFeet – udflytningshjælper");
+
+        if (skipCategoryPage && initialCategory != null) {
+            // Start direkte i en bestemt kategori
+            selectedCategory = initialCategory;
+            primaryStage.setTitle("TwoFeet – " + getCategoryName(selectedCategory));
+            showTopicsPage();
+        } else {
+            primaryStage.setTitle("TwoFeet – udflytningshjælper");
+            showCategoryPage();
+        }
+
         primaryStage.show();
     }
 
@@ -119,7 +141,6 @@ public class TwoFeetApp extends Application {
         primaryStage.setScene(new Scene(root, 700, 500));
     }
 
-    // ============== Hjælp: pæne navne til kategorier ==============
     private String getCategoryName(HelpCategory c) {
         return switch (c) {
             case LAUNDRY -> "Tøjvask";
