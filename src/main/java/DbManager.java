@@ -7,25 +7,33 @@ import java.util.List;
 public class DbManager {
 
     private Connection connection;
+    private final String url = "jdbc:sqlite:identifier.sqlite";
 
-    public void connect() {
+    public DbManager() {
+        // Lazy connect: connection is established on first use
+    }
+    private void ensureConnected() {
+        if (connection != null) return;
         try {
-            String url = "jdbc:sqlite:identifier.sqlite";
             connection = DriverManager.getConnection(url);
-            System.out.println("Connected to SQLite database.");
+            System.out.println("Connected to SQLite database. Working dir: " + new java.io.File(".").getAbsolutePath());
         } catch (SQLException e) {
+            System.err.println("Failed to connect to DB: " + e.getMessage());
             e.printStackTrace();
+            throw new RuntimeException("Unable to connect to database", e);
         }
     }
 
+
     public Connection getConnection() {
+        ensureConnected();
         return connection;
     }
 
     public void addUser(String name) {
-        if (connection == null) connect();
+        ensureConnected();
 
-        String sql = "INSERT OR IGNORE INTO todolists(username) VALUES (?)"; // OR IGNORE avoids duplicate errors
+        String sql = "INSERT OR IGNORE INTO todolists(user) VALUES (?)"; // OR IGNORE avoids duplicate errors
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, name);
             stmt.executeUpdate();
@@ -36,7 +44,7 @@ public class DbManager {
     }
 
     public void addTask(String task, String username) {
-        if (connection == null) connect();
+ensureConnected();
 
         Integer userId = getUserId(username);
         if (userId == null) {
@@ -44,7 +52,7 @@ public class DbManager {
             return;
         }
 
-        String sql = "INSERT INTO todoLists(username, task) VALUES (?, ?)";
+        String sql = "INSERT INTO todolists(user, task) VALUES (?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, username);
             stmt.setString(2, task);
@@ -56,9 +64,10 @@ public class DbManager {
     }
 
     public List<TaskEntry> getAllTasks() {
+        ensureConnected();
         List<TaskEntry> list = new ArrayList<>();
 
-        String sql = "SELECT username, task FROM todolists";
+        String sql = "SELECT user, task FROM todolists";
 
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -78,9 +87,10 @@ public class DbManager {
     }
 
     public List<Task> getTasksForUser(String username) {
+        ensureConnected();
         List<Task> listForUser = new ArrayList<>();
 
-        String sql = "SELECT * FROM todolists WHERE username = ?";
+        String sql = "SELECT * FROM todolists WHERE user = ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
@@ -109,7 +119,8 @@ public class DbManager {
 
 
     public Integer getUserId(String username) {
-        String sql = "SELECT taskid FROM todolists WHERE username = ?";
+        ensureConnected();
+        String sql = "SELECT taskid FROM todolists WHERE user = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
@@ -123,6 +134,7 @@ public class DbManager {
     }
 
     public void deleteTask(int taskId) {
+        ensureConnected();
         String sql = "DELETE FROM todolists WHERE taskid = ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
