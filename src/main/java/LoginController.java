@@ -21,7 +21,8 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     DBConnector dbConnector = new DBConnector();
-    String url1 = "jdbc:sqlite:C:\\Users\\morte\\IdeaProjects\\SceneBuilderTest\\identifier.sqlite"; // DB-sti kan vi tage senere
+    //String url1 = "jdbc:sqlite:C:\\Users\\morte\\IdeaProjects\\SceneBuilderTest\\identifier.sqlite"; // DB-sti kan vi tage senere
+    String url1 ="jdbc:sqlite:identifier.sqlite";
     Connection connection;
 
     @FXML

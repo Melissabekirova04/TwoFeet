@@ -78,6 +78,7 @@ public class DbManager {
     }
 
     public List<Task> getTasksForUser(String username) {
+        if (connection == null) connect();
         List<Task> listForUser = new ArrayList<>();
 
         String sql = "SELECT * FROM todolists WHERE username = ?";
@@ -109,6 +110,7 @@ public class DbManager {
 
 
     public Integer getUserId(String username) {
+        if (connection == null) connect();
         String sql = "SELECT taskid FROM todolists WHERE username = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, username);
@@ -123,6 +125,7 @@ public class DbManager {
     }
 
     public void deleteTask(int taskId) {
+        if (connection == null) connect();
         String sql = "DELETE FROM todolists WHERE taskid = ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
