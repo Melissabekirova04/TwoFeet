@@ -14,20 +14,16 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     DBConnector dbConnector = new DBConnector();
-    String url1 = "jdbc:sqlite:C:\\Users\\morte\\IdeaProjects\\SceneBuilderTest\\identifier.sqlite";
+    String url1 = "jdbc:sqlite:C:\\Users\\morte\\IdeaProjects\\SceneBuilderTest\\identifier.sqlite"; // DB-sti kan vi tage senere
     Connection connection;
+
     @FXML
     private Button cancelButton;
     @FXML
@@ -49,15 +45,16 @@ public class LoginController implements Initializable {
 
         dbConnector.connect(url1);
         connection = dbConnector.getConnection();
-        File brandingFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Logo1.png");
-        Image brandingImage = new Image(brandingFile.toURI().toString());
-        brandingImageView.setImage(brandingImage);
 
-        File lockFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Login.png");
-        Image lockImage = new Image(lockFile.toURI().toString());
-        lockImageView.setImage(lockImage);
+        URL brandingUrl = getClass().getResource("/Logo1.png");
+        if (brandingUrl != null) {
+            brandingImageView.setImage(new Image(brandingUrl.toExternalForm()));
+        }
 
-
+        URL lockUrl = getClass().getResource("/Login.png");
+        if (lockUrl != null) {
+            lockImageView.setImage(new Image(lockUrl.toExternalForm()));
+        }
     }
 
     public void loginButtonOnAction(ActionEvent event){
@@ -73,7 +70,6 @@ public class LoginController implements Initializable {
         }
     }
 
-
     public void cancelButtonOnAction(ActionEvent event){
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
@@ -85,31 +81,5 @@ public class LoginController implements Initializable {
         Stage stage = (Stage) loginButton.getScene().getWindow();
         stage.close();
     }
-        /*
-        String verifyLogin = "SELECT * FROM user_account WHERE username = '" + usernameTextField.getText() + "' AND password ='" + passwordTextField.getText() + "' ";
-
-        try{
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(verifyLogin);
-
-            while(rs.next()){
-                if(rs.getInt(1) == 1){
-                    //loginMessageLabel.setText("You successfully logged in!");
-                    createAccountForm();
-                } else {
-                    loginMessageLabel.setText("Invalid username or password");
-                }
-
-            }
-
-        } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void createAccountForm() throws IOException {
-        MainPageController mainPageController = new MainPageController();
-        mainPageController.start();
-    }
-*/
 }
+

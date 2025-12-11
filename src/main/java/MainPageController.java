@@ -11,7 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,29 +31,38 @@ public class MainPageController implements Initializable {
     @FXML
     private Button todoButton;
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
 
-        File logoFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Logo1.png");
-        Image logoImage = new Image(logoFile.toURI().toString());
-        logoImageView.setImage(logoImage);
+        // Logo
+        URL logoUrl = getClass().getResource("/Logo1.png");
+        if (logoUrl != null) {
+            logoImageView.setImage(new Image(logoUrl.toExternalForm()));
+        }
 
-        File checklistFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Checklist.png");
-        Image checklistImage = new Image(checklistFile.toURI().toString());
-        checklistImageView.setImage(checklistImage);
+        // Checklist
+        URL checklistUrl = getClass().getResource("/Checklist.png");
+        if (checklistUrl != null) {
+            checklistImageView.setImage(new Image(checklistUrl.toExternalForm()));
+        }
 
-        File budgetFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Budget.png");
-        Image budgetImage = new Image(budgetFile.toURI().toString());
-        budgetImageView.setImage(budgetImage);
+        // Budget
+        URL budgetUrl = getClass().getResource("/Budget.png");
+        if (budgetUrl != null) {
+            budgetImageView.setImage(new Image(budgetUrl.toExternalForm()));
+        }
 
-        File shoppingListFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\ShoppingList.png");
-        Image shoppingListImage = new Image(shoppingListFile.toURI().toString());
-        todoImageView.setImage(shoppingListImage);
+        // Todo / Shopping list
+        URL shoppingListUrl = getClass().getResource("/ShoppingList.png");
+        if (shoppingListUrl != null) {
+            todoImageView.setImage(new Image(shoppingListUrl.toExternalForm()));
+        }
 
-        File helpServiceFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Guide.png");
-        Image helpServiceImage = new Image(helpServiceFile.toURI().toString());
-        helpServiceImageView.setImage(helpServiceImage);
+        // Help/Guide
+        URL helpServiceUrl = getClass().getResource("/Guide.png");
+        if (helpServiceUrl != null) {
+            helpServiceImageView.setImage(new Image(helpServiceUrl.toExternalForm()));
+        }
     }
 
     public void start() throws IOException {
@@ -80,5 +88,4 @@ public class MainPageController implements Initializable {
         Stage stage = (Stage) todoButton.getScene().getWindow();
         stage.close();
     }
-
 }
