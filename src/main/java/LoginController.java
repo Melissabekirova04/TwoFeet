@@ -29,7 +29,7 @@ public class LoginController implements Initializable {
     String url1 = "jdbc:sqlite:C:\\Users\\morte\\IdeaProjects\\SceneBuilderTest\\identifier.sqlite";
     Connection connection;
     @FXML
-    private Button cancelButton;
+    private Button goToRegisterButton;
     @FXML
     private Label loginMessageLabel;
     @FXML
@@ -42,6 +42,22 @@ public class LoginController implements Initializable {
     private PasswordField passwordTextField;
     @FXML
     private Button loginButton;
+
+
+    public void start(){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(LoginController.class.getResource("/login.fxml"));
+            Stage loginStage = new Stage();
+            loginStage.initStyle(StageStyle.UNDECORATED);
+            Scene scene = new Scene(fxmlLoader.load(), 520, 400);
+            loginStage.setScene(scene);
+            loginStage.show();
+
+        }catch(Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -74,8 +90,10 @@ public class LoginController implements Initializable {
     }
 
 
-    public void cancelButtonOnAction(ActionEvent event){
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
+    public void goToRegisterButtonOnAction(ActionEvent event){
+        RegisterController registerController = new RegisterController();
+        registerController.start();
+        Stage stage = (Stage) goToRegisterButton.getScene().getWindow();
         stage.close();
     }
 

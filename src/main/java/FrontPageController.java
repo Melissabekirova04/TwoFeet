@@ -27,6 +27,7 @@ public class FrontPageController implements Initializable {
 
 
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
 
@@ -37,21 +38,10 @@ public class FrontPageController implements Initializable {
     }
 
     public void firstLoginButtonOnAction(ActionEvent event){
-        try{
-
-            FXMLLoader fxmlLoader = new FXMLLoader(LoginController.class.getResource("/login.fxml"));
-            Stage loginStage = new Stage();
-            loginStage.initStyle(StageStyle.UNDECORATED);
-            Scene scene = new Scene(fxmlLoader.load(), 520, 400);
-            loginStage.setScene(scene);
-            loginStage.show();
-
-            Stage currentStage = (Stage) firstLoginButton.getScene().getWindow();
-            currentStage.close();
-        }catch(Exception e){
-            e.printStackTrace();
-            e.getCause();
-        }
+        LoginController loginController = new LoginController();
+        loginController.start();
+        Stage currentStage = (Stage) firstLoginButton.getScene().getWindow();
+        currentStage.close();
     }
 
     public void firstRegisterButtonOnAction(ActionEvent event){
