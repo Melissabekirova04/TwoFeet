@@ -21,6 +21,10 @@ public class User {
         return id;
     }
 
+    public int getUserid(){
+        return userid;
+    }
+
     public String getFirstname() {
         return firstname;
     }
@@ -31,5 +35,9 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getPassword(){
+        return password;
     }
 }

@@ -55,7 +55,7 @@ public class RegisterController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/register.fxml"));
             Stage registerStage = new Stage();
             registerStage.initStyle(StageStyle.UNDECORATED);
-            Scene scene = new Scene(fxmlLoader.load(), 520, 523);
+            Scene scene = new Scene(fxmlLoader.load(), 399, 844);
             registerStage.setScene(scene);
             registerStage.show();
         }catch(Exception e){
@@ -68,7 +68,7 @@ public class RegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("Working directory: " + System.getProperty("user.dir"));
 
-        File shieldFile = new File("C:\\Users\\morte\\IdeaProjects\\SceneBuilderTest\\src\\main\\resources\\com\\example\\scenebuildertest\\Shield.png");
+        File shieldFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Shield.png");
         Image shieldImage = new Image(shieldFile.toURI().toString());
         shieldImageView.setImage(shieldImage);
 
@@ -124,6 +124,7 @@ public class RegisterController implements Initializable {
             registerCheckLabel.setText("The passwords doesn't match");
         } else {
             User user = new User(firstname, lastname, username, password);
+            TwoFeetApp.addUser(user);
             registerCheckLabel.setText("User made!");
 
             //Duration fundet fra AI, da Thread.sleep ikke opdatere billedet.
