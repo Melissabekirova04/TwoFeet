@@ -27,8 +27,10 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     DBConnector dbConnector = new DBConnector();
-    String url1 = "jdbc:sqlite:C:\\Users\\morte\\IdeaProjects\\SceneBuilderTest\\identifier.sqlite";
+    //String url1 = "jdbc:sqlite:C:\\Users\\morte\\IdeaProjects\\SceneBuilderTest\\identifier.sqlite"; // DB-sti kan vi tage senere
+    String url1 ="jdbc:sqlite:identifier.sqlite";
     Connection connection;
+
     @FXML
     private Button goToRegisterButton;
     @FXML
@@ -72,11 +74,15 @@ public class LoginController implements Initializable {
         Image brandingImage = new Image(brandingFile.toURI().toString());
         brandingImageView.setImage(brandingImage);
 
-        File lockFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Login.png");
-        Image lockImage = new Image(lockFile.toURI().toString());
-        lockImageView.setImage(lockImage);
+        URL brandingUrl = getClass().getResource("/Logo1.png");
+        if (brandingUrl != null) {
+            brandingImageView.setImage(new Image(brandingUrl.toExternalForm()));
+        }
 
-
+        URL lockUrl = getClass().getResource("/Login.png");
+        if (lockUrl != null) {
+            lockImageView.setImage(new Image(lockUrl.toExternalForm()));
+        }
     }
 
     public void loginButtonOnAction(ActionEvent event){

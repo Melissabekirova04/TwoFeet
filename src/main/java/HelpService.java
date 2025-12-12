@@ -85,50 +85,6 @@ public class HelpService {
                 Arrays.asList("køleskab", "fryser", "grader", "temperatur", "køl", "frys")
         ));
 
-        // ---------- INDEN INDFLYTNING ----------
-        topics.add(new HelpTopic(
-                6,
-                "Ting du bør have styr på inden du flytter ind",
-                HelpCategory.MOVE_IN,
-                "Før du flytter ind, er det en god idé at have styr på:\n" +
-                        "1) Lejekontrakt: Læs den igennem (opsigelse, husorden, indflytningssyn).\n" +
-                        "2) Forsikringer: Indboforsikring, evt. ulykkes- og ansvarsforsikring.\n" +
-                        "3) El og varme: Skal du selv vælge elselskab og aflæse målere?\n" +
-                        "4) Internet/TV: Bestil i god tid.\n" +
-                        "5) Adresseændring: Meld flytning digitalt.\n" +
-                        "6) Boligforening/udlejer: Tilmeld dig app, mail eller beboer-portal, så du får beskeder og regler.\n" +
-                        "7) Økonomi: Lav et simpelt budget for husleje, el, internet, mad, transport og lidt opsparing.",
-                Arrays.asList("flytte ind", "inden jeg flytter", "kontrakt", "forsikring", "indflytning", "boligforening")
-        ));
-
-        // ---------- STARTERPACK ----------
-        topics.add(new HelpTopic(
-                7,
-                "Udflytnings-starterpack til hjemmet",
-                HelpCategory.STARTERPACK,
-                "Forslag til en udflytnings-starterpack (basis til hjemmet):\n" +
-                        "KØKKEN:\n" +
-                        "- Gryde, pande, bradepande\n" +
-                        "- 2–4 tallerkener, glas, kopper, bestik\n" +
-                        "- Skærebræt, kniv, grydeskeer, piskeris\n" +
-                        "- Si, opbevaringsbokse, viskestykker\n" +
-                        "- Opvaskemiddel, opvaskebørste, karklude, affaldsposer\n" +
-                        "\nRENGØRING:\n" +
-                        "- Støvsuger eller kost/fejebakke\n" +
-                        "- Gulvmoppe + spand\n" +
-                        "- Universalrengøring, toiletrens, glasrens\n" +
-                        "- Mikrofiberklude, gummihandsker\n" +
-                        "\nBAD/VASK:\n" +
-                        "- Håndklæder, vaskeklude\n" +
-                        "- Vaskemiddel, tøjkurv, tørrestativ\n" +
-                        "\nANDRE BASISTING:\n" +
-                        "- Seng/sovesofa, dyne, pude, sengetøj\n" +
-                        "- Forlængerledninger, opladere, lamper\n" +
-                        "- Lille værktøjssæt (skruetrækker, hammer, søm/skruer)\n" +
-                        "- Førstehjælps-ting: plaster, smertestillende, desinfektion.",
-                Arrays.asList("starterpack", "starter pack", "hvad skal jeg have", "flytte hjemmefra", "basis ting")
-        ));
-
         // ---------- RENGØRINGSRUTINE ----------
         topics.add(new HelpTopic(
                 8,

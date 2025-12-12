@@ -1,5 +1,6 @@
 package main.java;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,22 +27,31 @@ public class FrontPageController implements Initializable {
     private Button firstCloseButton;
 
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-
         User user = new User("Admin", "Admin", "adminman", "Admin123");
         TwoFeetApp.addUser(user);
-        File logoFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Logo1.png");
-        Image logoImage = new Image(logoFile.toURI().toString());
-        logoImageView.setImage(logoImage);
-
+        URL logoUrl = getClass().getResource("/Logo1.png");
+        if (logoUrl != null) {
+            logoImageView.setImage(new Image(logoUrl.toExternalForm()));
+        }
     }
 
     public void firstLoginButtonOnAction(ActionEvent event){
-        LoginController loginController = new LoginController();
-        loginController.start();
-        Stage currentStage = (Stage) firstLoginButton.getScene().getWindow();
-        currentStage.close();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(LoginController.class.getResource("/login.fxml"));
+            Stage loginStage = new Stage();
+            loginStage.initStyle(StageStyle.UNDECORATED);
+            Scene scene = new Scene(fxmlLoader.load(), 520, 400);
+            loginStage.setScene(scene);
+            loginStage.show();
+
+            Stage currentStage = (Stage) firstLoginButton.getScene().getWindow();
+            currentStage.close();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void firstRegisterButtonOnAction(ActionEvent event){

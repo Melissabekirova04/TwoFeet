@@ -17,77 +17,87 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainPageController implements Initializable {
-    @FXML
-    private ImageView logoImageView;
-    @FXML
-    private ImageView checklistImageView;
-    @FXML
-    private ImageView budgetImageView;
-    @FXML
-    private ImageView helpServiceImageView;
-    @FXML
-    private ImageView todoImageView;
-    @FXML
-    private Button helpServiceButton;
-    @FXML
-    private Button todoButton;
-    @FXML
-    private Button budgetButton;
 
+    @FXML private ImageView logoImageView;
+    @FXML private ImageView checklistImageView;
+    @FXML private ImageView budgetImageView;
+    @FXML private ImageView todoImageView;
+    @FXML private ImageView helpServiceImageView;
+
+    @FXML private Button movingOutChecklistButton;
+    @FXML private Button budgetButton;
+    @FXML private Button todoButton;
+    @FXML private Button helpServiceButton;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        setImageSafe(logoImageView, "/Logo1.png");
+        setImageSafe(checklistImageView, "/Checklist.png");
+        setImageSafe(budgetImageView, "/Budget.png");
+        setImageSafe(todoImageView, "/ShoppingList.png");
+        setImageSafe(helpServiceImageView, "/Guide.png");
 
-        File logoFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Logo1.png");
-        Image logoImage = new Image(logoFile.toURI().toString());
-        logoImageView.setImage(logoImage);
-
-        File checklistFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Checklist.png");
-        Image checklistImage = new Image(checklistFile.toURI().toString());
-        checklistImageView.setImage(checklistImage);
-
-        File budgetFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Budget.png");
-        Image budgetImage = new Image(budgetFile.toURI().toString());
-        budgetImageView.setImage(budgetImage);
-
-        File shoppingListFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\ShoppingList.png");
-        Image shoppingListImage = new Image(shoppingListFile.toURI().toString());
-        todoImageView.setImage(shoppingListImage);
-
-        File helpServiceFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Guide.png");
-        Image helpServiceImage = new Image(helpServiceFile.toURI().toString());
-        helpServiceImageView.setImage(helpServiceImage);
+        // billeder må ikke blokere klik
+        if (logoImageView != null) logoImageView.setMouseTransparent(true);
+        if (checklistImageView != null) checklistImageView.setMouseTransparent(true);
+        if (budgetImageView != null) budgetImageView.setMouseTransparent(true);
+        if (todoImageView != null) todoImageView.setMouseTransparent(true);
+        if (helpServiceImageView != null) helpServiceImageView.setMouseTransparent(true);
     }
 
-    public void start() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/mainpage.fxml"));
-        Stage registerStage = new Stage();
-        registerStage.initStyle(StageStyle.UNDECORATED);
-        Scene scene = new Scene(fxmlLoader.load(), 399, 844);
-        registerStage.setScene(scene);
-        registerStage.show();
+    private void setImageSafe(ImageView view, String resourcePath) {
+        if (view == null) return;
+        URL res = getClass().getResource(resourcePath);
+        if (res != null) {
+            view.setImage(new Image(res.toExternalForm()));
+        } else {
+            System.out.println("Missing resource: " + resourcePath);
+        }
     }
 
-    public void helpServiceButtonOnAction(ActionEvent event){
+    // ✅ Moving Out Checklist
+    @FXML
+    private void movingOutChecklistButtonOnAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/moved_out_checklist.fxml"));
+            Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(new Scene(loader.load(), 520, 600));
+            stage.show();
+
+            // luk main page
+            Stage current = (Stage) movingOutChecklistButton.getScene().getWindow();
+            current.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // ✅ Todo
+    @FXML
+    private void todoButtonOnAction(ActionEvent event) {
+        TodoController todo = new TodoController();
+        todo.start();
+        Stage current = (Stage) todoButton.getScene().getWindow();
+        current.close();
+    }
+
+    // ✅ Help Service
+    @FXML
+    private void helpServiceButtonOnAction(ActionEvent event) {
         TwoFeetApp app = new TwoFeetApp();
         Stage stage = new Stage();
         app.start(stage);
-        Stage currentStage = (Stage) helpServiceButton.getScene().getWindow();
-        currentStage.close();
+
+        Stage current = (Stage) helpServiceButton.getScene().getWindow();
+        current.close();
     }
 
-    public void todoButtonOnAction(ActionEvent event){
-        TodoController todo = new TodoController();
-        todo.start();
-        Stage stage = (Stage) todoButton.getScene().getWindow();
-        stage.close();
+    // ✅ Budget (bare placeholder)
+    @FXML
+    private void budgetButtonOnAction(ActionEvent event) {
+        System.out.println("Budget clicked (kan laves senere)");
     }
-
-    public void budgetButtonOnAction(ActionEvent event){
-        LoginController loginController = new LoginController();
-        loginController.start();
-        Stage stage = (Stage) budgetButton.getScene().getWindow();
-        stage.close();
-    }
-
 }
+
