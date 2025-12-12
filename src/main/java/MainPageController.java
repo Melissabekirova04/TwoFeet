@@ -79,7 +79,7 @@ public class MainPageController implements Initializable {
     @FXML
     private void todoButtonOnAction(ActionEvent event) {
         TodoController todo = new TodoController();
-        todo.start();
+        todo.startTodo();
         Stage current = (Stage) todoButton.getScene().getWindow();
         current.close();
     }

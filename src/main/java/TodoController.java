@@ -23,7 +23,7 @@ public class TodoController {
     private DbManager dbManager;
     private Runnable onSuccess;
 
-    public void start(){
+    public void startTodo(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/todo.fxml"));
             Stage registerStage = new Stage();
