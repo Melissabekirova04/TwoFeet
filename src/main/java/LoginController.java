@@ -84,7 +84,7 @@ public class LoginController implements Initializable {
             lockImageView.setImage(new Image(lockUrl.toExternalForm()));
         }
     }
-
+//stfu jasmin er dum hha
     public void loginButtonOnAction(ActionEvent event){
 
         if(!usernameTextField.getText().isBlank() && !passwordTextField.getText().isBlank()){
