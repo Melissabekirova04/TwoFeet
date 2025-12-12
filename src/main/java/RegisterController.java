@@ -89,9 +89,6 @@ public class RegisterController implements Initializable {
         String username = usernameTextField.getText();
         String password = setPasswordField.getText();
         String confirmPassword = confirmPasswordField.getText();
-        String passwordCriteriaText = "Password must be over 9 characters long and contain\n"
-                + "     at least one number and uppercase letter";
-
 
         //Checker for blanke felter
         if (!userChecker.isFilledOut(firstname, lastname, username, password, confirmPassword)) {

@@ -15,7 +15,7 @@ import java.util.Set;
 
 public class TwoFeetApp extends Application {
 
-    private static Set<User> users = new HashSet<>();
+    private static HashSet<User> users = new HashSet<>();
     private HelpService helpService = new HelpService();
     private Stage primaryStage;
 
@@ -135,6 +135,10 @@ public class TwoFeetApp extends Application {
 
     public static void addUser(User user){
         users.add(user);
+    }
+
+    public static HashSet<User> getUsers() {
+        return users;
     }
 
     public static void main(String[] args) {

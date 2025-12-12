@@ -1,5 +1,7 @@
 package main.java;
 
+import java.util.Objects;
+
 public class User {
     private static int id = 1;
     private int userid;
@@ -39,5 +41,16 @@ public class User {
 
     public String getPassword(){
         return password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof User user)) return false;
+        return userid == user.userid;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(userid);
     }
 }

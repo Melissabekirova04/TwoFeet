@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.java.util.UserChecker;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +43,8 @@ public class LoginController implements Initializable {
     private PasswordField passwordTextField;
     @FXML
     private Button loginButton;
+
+    private UserChecker userChecker = new UserChecker();
 
 
     public void start(){
@@ -98,10 +101,20 @@ public class LoginController implements Initializable {
     }
 
     public void validateLogin() throws IOException {
-        MainPageController mainPageController = new MainPageController();
-        mainPageController.start();
-        Stage stage = (Stage) loginButton.getScene().getWindow();
-        stage.close();
+        String username = usernameTextField.getText();
+        String password = passwordTextField.getText();
+        if(userChecker.checkIfCorrectLogin(TwoFeetApp.getUsers(), username, password) == true){
+            loginMessageLabel.setText("Success!");
+            MainPageController mainPageController = new MainPageController();
+            mainPageController.start();
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.close();
+        }else{
+            loginMessageLabel.setText("Wrong Username or Password");
+        }
+
+
+
     }
         /*
         String verifyLogin = "SELECT * FROM user_account WHERE username = '" + usernameTextField.getText() + "' AND password ='" + passwordTextField.getText() + "' ";

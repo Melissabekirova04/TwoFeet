@@ -37,7 +37,7 @@
                <font>
                   <Font name="Calibri" size="16.0" />
                </font></PasswordField>
-                <Button fx:id="loginButton" layoutX="70.0" layoutY="497.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="32.0" prefWidth="250.0" style="-fx-background-color: #F49338;" text="Login" textFill="WHITE">
+                <Button fx:id="loginButton" layoutX="70.0" layoutY="517.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="32.0" prefWidth="250.0" style="-fx-background-color: #F49338;" text="Login" textFill="WHITE">
                     <font>
                         <Font name="Calibri" size="18.0" />
                     </font>
@@ -47,9 +47,9 @@
                         <Font name="Calibri" size="18.0" />
                     </font>
                 </Button>
-                <Label fx:id="loginMessageLabel" alignment="CENTER" layoutX="14.0" layoutY="217.0" prefHeight="19.0" prefWidth="250.0" textFill="#d53c3c">
+                <Label fx:id="loginMessageLabel" alignment="CENTER" layoutX="19.0" layoutY="484.0" prefHeight="19.0" prefWidth="361.0" textFill="#d53c3c">
                     <font>
-                        <Font size="13.0" />
+                        <Font name="Calibri" size="11.0" />
                     </font>
                 </Label>
             <Label layoutX="66.0" layoutY="663.0" text="Not a User yet? Go to Register instead" textFill="WHITE">

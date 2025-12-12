@@ -31,6 +31,8 @@ public class MainPageController implements Initializable {
     private Button helpServiceButton;
     @FXML
     private Button todoButton;
+    @FXML
+    private Button budgetButton;
 
 
     @Override
@@ -61,7 +63,7 @@ public class MainPageController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/mainpage.fxml"));
         Stage registerStage = new Stage();
         registerStage.initStyle(StageStyle.UNDECORATED);
-        Scene scene = new Scene(fxmlLoader.load(), 520, 600);
+        Scene scene = new Scene(fxmlLoader.load(), 399, 844);
         registerStage.setScene(scene);
         registerStage.show();
     }
@@ -78,6 +80,13 @@ public class MainPageController implements Initializable {
         TodoController todo = new TodoController();
         todo.start();
         Stage stage = (Stage) todoButton.getScene().getWindow();
+        stage.close();
+    }
+
+    public void budgetButtonOnAction(ActionEvent event){
+        LoginController loginController = new LoginController();
+        loginController.start();
+        Stage stage = (Stage) budgetButton.getScene().getWindow();
         stage.close();
     }
 

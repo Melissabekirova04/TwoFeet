@@ -1,4 +1,6 @@
 package main.java.util;
+import main.java.User;
+import java.util.HashSet;
 
 public class UserChecker {
 
@@ -12,7 +14,7 @@ public class UserChecker {
     }
 
     public boolean checkLength(String input, int minimum, int maximum){
-        if(input.length()<=minimum || input.length() > maximum){
+        if(input.length()<minimum || input.length() > maximum){
             return false;
         }else{
             return true;
@@ -43,4 +45,15 @@ public class UserChecker {
         }
     }
 
+    public boolean checkIfCorrectLogin(HashSet<User> users, String username, String password){
+        for (User user : users) {
+            if(username.equals(user.getUsername()) && password.equals((user.getPassword()))){
+                    return true;
+            }
+        }
+        return false;
+    }
+
+
 }
+
