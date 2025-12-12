@@ -55,7 +55,7 @@ public class MovedOutChecklistController {
 
     @FXML
     private void onBackToMain(ActionEvent event) {
-        openWindow("/mainpage.fxml", 520, 600);
+        openWindow("/mainpage.fxml", 399, 844);
         closeCurrent(event);
     }
 

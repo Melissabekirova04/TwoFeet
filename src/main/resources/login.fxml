@@ -62,7 +62,7 @@
                         <Image url="@Logo1.png" />
                     </image>
                 </ImageView>
-            <Button layoutX="85.0" layoutY="770.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="218.0" text="Close">
+            <Button fx:id="loginCloseButton" layoutX="85.0" layoutY="770.0" mnemonicParsing="false" onAction="#loginCloseButtonOnAction" prefHeight="34.0" prefWidth="218.0" text="Close">
                <font>
                   <Font name="Calibri Bold" size="18.0" />
                </font>

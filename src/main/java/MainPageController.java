@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.java.util.CloseProgram;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +31,7 @@ public class MainPageController implements Initializable {
     @FXML private Button budgetButton;
     @FXML private Button todoButton;
     @FXML private Button helpServiceButton;
+    @FXML private Button mainCloseButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -120,6 +122,11 @@ public class MainPageController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void mainCloseButtonOnAction(){
+        Stage stage = (Stage) mainCloseButton.getScene().getWindow();
+        CloseProgram.close(stage);
     }
 
 }

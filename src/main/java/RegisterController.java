@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import main.java.Main;
+import main.java.util.CloseProgram;
 import main.java.util.UserChecker;
 
 import java.io.File;
@@ -45,6 +46,8 @@ public class RegisterController implements Initializable {
     private Label registerCheckLabel;
     @FXML
     private Label registerCheckLabel1;
+    @FXML
+    private Button registerCloseButton;
 
     private UserChecker userChecker = new UserChecker();
 
@@ -139,4 +142,10 @@ public class RegisterController implements Initializable {
             pause.play();
         }
     }
+
+    public void registerCloseButtonOnAction(){
+        Stage stage = (Stage) registerCloseButton.getScene().getWindow();
+        CloseProgram.close(stage);
+    }
+
 }
