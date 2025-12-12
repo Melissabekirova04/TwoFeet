@@ -5,71 +5,75 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="844.0" prefWidth="399.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.MainPageController">
     <children>
         <HBox prefHeight="844.0" prefWidth="399.0">
             <children>
-                <VBox prefHeight="462.0" prefWidth="100.0">
+                <AnchorPane prefHeight="844.0" prefWidth="401.0">
                     <children>
-                        <AnchorPane prefHeight="844.0" prefWidth="50.0" style="-fx-background-color: #01233B;">
-                            <children>
-                                <ImageView fx:id="logoImageView" fitHeight="67.0" fitWidth="73.0" layoutX="8.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@Logo1.png" />
-                                    </image>
-                                </ImageView>
-                            </children>
-                        </AnchorPane>
-                    </children>
-                </VBox>
-                <AnchorPane prefHeight="844.0" prefWidth="322.0">
-                    <children>
-                        <Button layoutX="77.0" layoutY="202.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="157.0" style="-fx-background-color: #FD841E;" text="Moved Out Checklist">
+                        <Button layoutX="92.0" layoutY="205.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #FD841E;" text="Moved Out Checklist">
                             <font>
-                                <Font name="System Bold" size="13.0" />
+                                <Font name="Calibri Bold" size="18.0" />
                             </font>
                         </Button>
-                        <Button fx:id="budgetButton" layoutX="77.0" layoutY="390.0" mnemonicParsing="false" onAction="#budgetButtonOnAction" prefHeight="26.0" prefWidth="157.0" style="-fx-background-color: #FD841E;" text="Budget">
+                        <Button fx:id="budgetButton" layoutX="92.0" layoutY="373.0" mnemonicParsing="false" onAction="#budgetButtonOnAction" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #FD841E;" text="Budget">
                             <font>
-                                <Font name="Calibri Bold" size="13.0" />
+                                <Font name="Calibri Bold" size="18.0" />
                             </font>
                         </Button>
-                        <Button fx:id="helpServiceButton" layoutX="77.0" layoutY="583.0" mnemonicParsing="false" onAction="#helpServiceButtonOnAction" prefHeight="26.0" prefWidth="157.0" style="-fx-background-color: #FD841E;" text="Help Service">
+                        <Button fx:id="helpServiceButton" layoutX="92.0" layoutY="547.0" mnemonicParsing="false" onAction="#helpServiceButtonOnAction" prefHeight="34.0" prefWidth="214.0" style="-fx-background-color: #FD841E;" text="Help Service">
                             <font>
-                                <Font name="Calibri Bold" size="13.0" />
+                                <Font name="Calibri Bold" size="18.0" />
                             </font>
                         </Button>
-                        <ImageView fx:id="budgetImageView" fitHeight="121.0" fitWidth="121.0" layoutX="95.0" layoutY="269.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="budgetImageView" fitHeight="121.0" fitWidth="121.0" layoutX="139.0" layoutY="252.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@Budget.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="helpServiceImageView" fitHeight="133.0" fitWidth="132.0" layoutX="89.0" layoutY="451.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="helpServiceImageView" fitHeight="133.0" fitWidth="132.0" layoutX="133.0" layoutY="415.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@Guide.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="checklistImageView" fitHeight="121.0" fitWidth="157.0" layoutX="95.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="checklistImageView" fitHeight="121.0" fitWidth="157.0" layoutX="139.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@Checklist.png" />
                             </image>
                         </ImageView>
-                        <Button fx:id="todoButton" layoutX="77.0" layoutY="771.0" mnemonicParsing="false" onAction="#todoButtonOnAction" prefHeight="26.0" prefWidth="157.0" style="-fx-background-color: #FD841E;" text="Todo List">
-                            <font>
-                                <Font name="Calibri Bold" size="13.0" />
-                            </font>
-                        </Button>
-                        <ImageView fx:id="todoImageView" fitHeight="146.0" fitWidth="140.0" layoutX="85.0" layoutY="644.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="todoImageView" fitHeight="146.0" fitWidth="140.0" layoutX="129.0" layoutY="595.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@Todo.png" />
                             </image>
                         </ImageView>
+                        <Button fx:id="todoButton" layoutX="121.0" layoutY="735.0" mnemonicParsing="false" onAction="#todoButtonOnAction" prefHeight="26.0" prefWidth="157.0" style="-fx-background-color: #FD841E;" text="Todo List">
+                            <font>
+                                <Font name="Calibri Bold" size="18.0" />
+                            </font>
+                        </Button>
+                  <AnchorPane layoutY="791.0" prefHeight="54.0" prefWidth="399.0" style="-fx-background-color: #02213A;">
+                     <children>
+                        <Button layoutX="162.0" layoutY="10.0" mnemonicParsing="false" text="Button">
+                           <font>
+                              <Font name="Calibri Bold" size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
                     </children>
                 </AnchorPane>
             </children>
         </HBox>
+      <AnchorPane prefHeight="78.0" prefWidth="399.0" style="-fx-background-color: #02213A;">
+         <children>
+                    <ImageView fx:id="logoImageView" fitHeight="67.0" fitWidth="73.0" layoutX="14.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@Logo1.png" />
+                        </image>
+                    </ImageView>
+         </children>
+      </AnchorPane>
     </children>
 </AnchorPane>

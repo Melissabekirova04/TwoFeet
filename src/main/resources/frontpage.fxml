@@ -32,7 +32,7 @@
                 <Font name="Calibri" size="18.0" />
             </font>
         </Label>
-        <Button fx:id="firstCloseButton" layoutX="85.0" layoutY="722.0" mnemonicParsing="false" onAction="#firstCloseButtonOnAction" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #fffff;" text="Close" textFill="#f49338">
+        <Button fx:id="firstCloseButton" layoutX="85.0" layoutY="770.0" mnemonicParsing="false" onAction="#firstCloseButtonOnAction" prefHeight="13.0" prefWidth="218.0" style="-fx-background-color: #fffff;" text="Close">
          <font>
             <Font name="Calibri Bold" size="18.0" />
          </font></Button>

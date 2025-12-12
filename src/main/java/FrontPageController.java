@@ -26,12 +26,12 @@ public class FrontPageController implements Initializable {
     private Button firstCloseButton;
 
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
 
-        File logoFile = new File("C:\\Users\\morte\\IdeaProjects\\SceneBuilderTest\\src\\main\\resources\\com\\example\\scenebuildertest\\Logo1.png");
+        User user = new User("Admin", "Admin", "adminman", "Admin123");
+        TwoFeetApp.addUser(user);
+        File logoFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Logo1.png");
         Image logoImage = new Image(logoFile.toURI().toString());
         logoImageView.setImage(logoImage);
 
