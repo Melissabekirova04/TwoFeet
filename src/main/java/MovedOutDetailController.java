@@ -14,12 +14,13 @@ import java.io.IOException;
 public class MovedOutDetailController {
 
     @FXML private Label titleLabel;
-    @FXML private TextArea textArea;
+    @FXML private TextArea contentArea;
 
     public void setData(String title, String text) {
         titleLabel.setText(title);
-        textArea.setText(text);
+        contentArea.setText(text);
     }
+
 
     @FXML
     private void onBack(ActionEvent event) {
