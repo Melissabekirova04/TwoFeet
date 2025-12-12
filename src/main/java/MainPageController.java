@@ -55,23 +55,14 @@ public class MainPageController implements Initializable {
     }
 
     // ✅ Moving Out Checklist
-    @FXML
+  /*  @FXML
     private void movingOutChecklistButtonOnAction(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/moved_out_checklist.fxml"));
-            Stage stage = new Stage();
-            stage.initStyle(StageStyle.UNDECORATED);
-            stage.setScene(new Scene(loader.load(), 520, 600));
-            stage.show();
+        MovedOutChecklistController movedOut = new MovedOutChecklistController();
+        movedOut.start();
 
-            // luk main page
-            Stage current = (Stage) movingOutChecklistButton.getScene().getWindow();
-            current.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+        Stage current = (Stage) movingOutChecklistButton.getScene().getWindow();
+        current.close();
+    }*/
 
     // ✅ Todo
     @FXML
