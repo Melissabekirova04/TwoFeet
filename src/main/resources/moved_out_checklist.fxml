@@ -42,9 +42,13 @@
     </center>
 
     <bottom>
-        <VBox alignment="CENTER_RIGHT" padding="15">
+        <VBox alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
             <Button text="Back to Main Menu" onAction="#onBackToMain"/>
         </VBox>
     </bottom>
+
 
 </BorderPane>

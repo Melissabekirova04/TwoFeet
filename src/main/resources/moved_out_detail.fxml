@@ -24,7 +24,10 @@
     </top>
 
     <center>
-        <VBox padding="15" spacing="10">
+        <VBox spacing="10">
+            <padding>
+                <Insets value="15"/>
+            </padding>
             <TextArea fx:id="contentArea"
                       wrapText="true"
                       editable="false"
@@ -32,10 +35,15 @@
         </VBox>
     </center>
 
+
     <bottom>
-        <VBox padding="15" alignment="CENTER_RIGHT">
+        <VBox alignment="CENTER_RIGHT">
+            <padding>
+                <Insets value="15"/>
+            </padding>
             <Button text="← Back" onAction="#onBack"/>
         </VBox>
     </bottom>
+
 
 </BorderPane>
