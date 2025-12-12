@@ -45,6 +45,15 @@ public class MainPageController implements Initializable {
         if (helpServiceImageView != null) helpServiceImageView.setMouseTransparent(true);
     }
 
+    public void start() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/mainpage.fxml"));
+        Stage registerStage = new Stage();
+        registerStage.initStyle(StageStyle.UNDECORATED);
+        Scene scene = new Scene(fxmlLoader.load(), 399, 844);
+        registerStage.setScene(scene);
+        registerStage.show();
+    }
+
     private void setImageSafe(ImageView view, String resourcePath) {
         if (view == null) return;
         URL res = getClass().getResource(resourcePath);
