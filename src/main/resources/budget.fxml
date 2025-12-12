@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="main.java.BudgetController">
+
+    <children>
+        <VBox alignment="TOP_CENTER" spacing="20" AnchorPane.topAnchor="20"
+              AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+
+            <!-- Header -->
+            <Label text="Budget Manager" style="-fx-font-weight: bold;">
+                <font>
+                    <Font size="26"/>
+                </font>
+            </Label>
+
+            <!-- Card Container -->
+            <VBox spacing="18" alignment="CENTER"
+                  style="-fx-background-color: #f2f2f7; -fx-background-radius: 16;"
+                  prefWidth="420" prefHeight="300">
+                <padding>
+                    <Insets top="25" right="25" bottom="25" left="25"/>
+                </padding>
+
+                <!-- Balance Display -->
+                <HBox spacing="10" alignment="CENTER">
+                    <Label text="Balance:" style="-fx-font-size: 18;" />
+                    <Label fx:id="balanceLabel" text="0.00 kr"
+                           style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                </HBox>
+
+                <!-- Amount Input -->
+                <VBox spacing="6" alignment="CENTER">
+                    <Label text="Amount:"/>
+                    <TextField fx:id="amountField" promptText="Enter amount"
+                               prefWidth="220"
+                               style="-fx-background-radius: 8;"/>
+                </VBox>
+
+                <!-- Action Buttons -->
+                <HBox spacing="15" alignment="CENTER">
+                    <Button text="Deposit"
+                            onAction="#deposit"
+                            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 8;"/>
+                    <Button text="Withdraw"
+                            onAction="#withdraw"
+                            style="-fx-background-color: #FF6B6B; -fx-text-fill: white; -fx-background-radius: 8;"/>
+                </HBox>
+
+                <!-- Save Button -->
+                <Button text="Save to Database"
+                        onAction="#deposit"
+                        style="-fx-background-color: #3A7AFE; -fx-text-fill: white; -fx-background-radius: 10;"/>
+            </VBox>
+        </VBox>
+    </children>
+</AnchorPane>
