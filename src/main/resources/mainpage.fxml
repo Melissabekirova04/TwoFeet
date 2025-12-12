@@ -8,65 +8,129 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="390.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.MainPageController">
+<AnchorPane prefHeight="390.0" prefWidth="520.0"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="main.java.MainPageController">
+
     <children>
         <HBox prefHeight="536.0" prefWidth="520.0">
             <children>
+
+                <!-- LEFT SIDEBAR -->
                 <VBox prefHeight="462.0" prefWidth="100.0">
                     <children>
-                        <AnchorPane prefHeight="608.0" prefWidth="100.0" style="-fx-background-color: #01233B;">
+                        <AnchorPane prefHeight="608.0" prefWidth="100.0"
+                                    style="-fx-background-color: #01233B;">
                             <children>
-                                <ImageView fx:id="logoImageView" fitHeight="67.0" fitWidth="73.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="logoImageView"
+                                           mouseTransparent="true"
+                                           fitHeight="67.0" fitWidth="73.0"
+                                           layoutX="16.0" layoutY="14.0"
+                                           pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@Logo1.png" />
+                                        <Image url="@Logo1.png"/>
                                     </image>
                                 </ImageView>
                             </children>
                         </AnchorPane>
                     </children>
                 </VBox>
+
+                <!-- MAIN CONTENT -->
                 <AnchorPane prefHeight="600.0" prefWidth="421.0">
                     <children>
-                        <Button layoutX="39.0" layoutY="189.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="157.0" style="-fx-background-color: #FD841E;" text="Moved Out Checklist">
+
+                        <!-- BUTTONS -->
+                        <Button fx:id="movingOutChecklistButton"
+                                layoutX="39.0" layoutY="189.0"
+                                mnemonicParsing="false"
+                                prefHeight="28.0" prefWidth="157.0"
+                                style="-fx-background-color: #FD841E;"
+                                text="Moved Out Checklist"
+                                onAction="#movingOutChecklistButtonOnAction">
                             <font>
-                                <Font name="System Bold" size="13.0" />
+                                <Font name="System Bold" size="13.0"/>
                             </font>
                         </Button>
-                        <Button layoutX="239.0" layoutY="190.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="157.0" style="-fx-background-color: #FD841E;" text="Budget">
+
+                        <Button fx:id="budgetButton"
+                                layoutX="239.0" layoutY="190.0"
+                                mnemonicParsing="false"
+                                prefHeight="26.0" prefWidth="157.0"
+                                style="-fx-background-color: #FD841E;"
+                                text="Budget"
+                                onAction="#budgetButtonOnAction">
                             <font>
-                                <Font name="Calibri Bold" size="13.0" />
+                                <Font name="Calibri Bold" size="13.0"/>
                             </font>
                         </Button>
-                        <Button fx:id="helpServiceButton" layoutX="239.0" layoutY="450.0" mnemonicParsing="false" onAction="#helpServiceButtonOnAction" prefHeight="26.0" prefWidth="157.0" style="-fx-background-color: #FD841E;" text="Help Service">
+
+                        <Button fx:id="todoButton"
+                                layoutX="39.0" layoutY="450.0"
+                                mnemonicParsing="false"
+                                onAction="#todoButtonOnAction"
+                                prefHeight="26.0" prefWidth="157.0"
+                                style="-fx-background-color: #FD841E;"
+                                text="Todo List">
                             <font>
-                                <Font name="Calibri Bold" size="13.0" />
+                                <Font name="Calibri Bold" size="13.0"/>
                             </font>
                         </Button>
-                        <Button fx:id="todoButton" layoutX="39.0" layoutY="450.0" mnemonicParsing="false" onAction="#todoButtonOnAction" prefHeight="26.0" prefWidth="157.0" style="-fx-background-color: #FD841E;" text="Todo List">
+
+                        <Button fx:id="helpServiceButton"
+                                layoutX="239.0" layoutY="450.0"
+                                mnemonicParsing="false"
+                                onAction="#helpServiceButtonOnAction"
+                                prefHeight="26.0" prefWidth="157.0"
+                                style="-fx-background-color: #FD841E;"
+                                text="Help Service">
                             <font>
-                                <Font name="Calibri Bold" size="13.0" />
+                                <Font name="Calibri Bold" size="13.0"/>
                             </font>
                         </Button>
-                        <ImageView fx:id="budgetImageView" fitHeight="121.0" fitWidth="121.0" layoutX="257.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+
+                        <!-- IMAGES (must not block clicks) -->
+                        <ImageView fx:id="budgetImageView"
+                                   mouseTransparent="true"
+                                   fitHeight="121.0" fitWidth="121.0"
+                                   layoutX="257.0" layoutY="57.0"
+                                   pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@Budget.png" />
+                                <Image url="@Budget.png"/>
                             </image>
                         </ImageView>
-                        <ImageView fx:id="helpServiceImageView" fitHeight="133.0" fitWidth="132.0" layoutX="252.0" layoutY="313.0" pickOnBounds="true" preserveRatio="true">
+
+                        <ImageView fx:id="helpServiceImageView"
+                                   mouseTransparent="true"
+                                   fitHeight="133.0" fitWidth="132.0"
+                                   layoutX="252.0" layoutY="313.0"
+                                   pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@Guide.png" />
+                                <Image url="@Guide.png"/>
                             </image>
                         </ImageView>
-                        <ImageView fx:id="todoImageView" fitHeight="146.0" fitWidth="140.0" layoutX="48.0" layoutY="309.0" pickOnBounds="true" preserveRatio="true">
+
+                        <ImageView fx:id="todoImageView"
+                                   mouseTransparent="true"
+                                   fitHeight="146.0" fitWidth="140.0"
+                                   layoutX="48.0" layoutY="309.0"
+                                   pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@Todo.png" />
+                                <Image url="@ShoppingList.png"/>
                             </image>
                         </ImageView>
-                        <ImageView fx:id="checklistImageView" fitHeight="121.0" fitWidth="121.0" layoutX="57.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+
+                        <ImageView fx:id="checklistImageView"
+                                   mouseTransparent="true"
+                                   fitHeight="121.0" fitWidth="121.0"
+                                   layoutX="57.0" layoutY="57.0"
+                                   pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@Checklist.png" />
+                                <Image url="@Checklist.png"/>
                             </image>
                         </ImageView>
+
                     </children>
                 </AnchorPane>
             </children>

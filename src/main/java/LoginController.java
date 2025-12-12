@@ -77,10 +77,17 @@ public class LoginController implements Initializable {
     }
 
     public void validateLogin() throws IOException {
-        MainPageController mainPageController = new MainPageController();
-        mainPageController.start();
-        Stage stage = (Stage) loginButton.getScene().getWindow();
-        stage.close();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainpage.fxml"));
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(new Scene(loader.load(), 520, 600));
+        stage.show();
+
+        // luk login vinduet
+        Stage currentStage = (Stage) loginButton.getScene().getWindow();
+        currentStage.close();
     }
+
 }
 
