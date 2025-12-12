@@ -26,7 +26,8 @@
     <center>
         <VBox spacing="10">
             <padding>
-                <Insets value="15"/>
+                <!-- replaced value="15" with explicit edges -->
+                <Insets top="15" right="15" bottom="15" left="15"/>
             </padding>
             <TextArea fx:id="contentArea"
                       wrapText="true"
@@ -35,15 +36,14 @@
         </VBox>
     </center>
 
-
     <bottom>
         <VBox alignment="CENTER_RIGHT">
             <padding>
-                <Insets value="15"/>
+                <!-- replaced value="15" with explicit edges -->
+                <Insets top="15" right="15" bottom="15" left="15"/>
             </padding>
             <Button text="← Back" onAction="#onBack"/>
         </VBox>
     </bottom>
-
 
 </BorderPane>
