@@ -10,13 +10,15 @@ import java.io.IOException;
 
 public class Main extends Application {
 
+
+
     @Override
     public void start(Stage stage) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/frontpage.fxml"));
         Stage frontStage = new Stage();
         frontStage.initStyle(StageStyle.UNDECORATED);
-        Scene scene = new Scene(fxmlLoader.load(), 520, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 399, 844);
         frontStage.setScene(scene);
         frontStage.show();
 

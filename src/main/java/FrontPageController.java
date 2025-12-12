@@ -11,6 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javafx.event.ActionEvent;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -24,9 +26,12 @@ public class FrontPageController implements Initializable {
     @FXML
     private Button firstCloseButton;
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-
+        User user = new User("Admin", "Admin", "adminman", "Admin123");
+        TwoFeetApp.addUser(user);
         URL logoUrl = getClass().getResource("/Logo1.png");
         if (logoUrl != null) {
             logoImageView.setImage(new Image(logoUrl.toExternalForm()));
@@ -38,7 +43,7 @@ public class FrontPageController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(LoginController.class.getResource("/login.fxml"));
             Stage loginStage = new Stage();
             loginStage.initStyle(StageStyle.UNDECORATED);
-            Scene scene = new Scene(fxmlLoader.load(), 520, 400);
+            Scene scene = new Scene(fxmlLoader.load(), 399, 844);
             loginStage.setScene(scene);
             loginStage.show();
 

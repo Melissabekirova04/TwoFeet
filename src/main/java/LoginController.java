@@ -13,10 +13,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.java.util.UserChecker;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -26,7 +32,7 @@ public class LoginController implements Initializable {
     Connection connection;
 
     @FXML
-    private Button cancelButton;
+    private Button goToRegisterButton;
     @FXML
     private Label loginMessageLabel;
     @FXML
@@ -40,12 +46,33 @@ public class LoginController implements Initializable {
     @FXML
     private Button loginButton;
 
+    private UserChecker userChecker = new UserChecker();
+
+
+    public void start(){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(LoginController.class.getResource("/login.fxml"));
+            Stage loginStage = new Stage();
+            loginStage.initStyle(StageStyle.UNDECORATED);
+            Scene scene = new Scene(fxmlLoader.load(), 399, 844);
+            loginStage.setScene(scene);
+            loginStage.show();
+
+        }catch(Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         System.out.println("Working directory: " + System.getProperty("user.dir"));
 
         dbConnector.connect(url1);
         connection = dbConnector.getConnection();
+        File brandingFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Logo1.png");
+        Image brandingImage = new Image(brandingFile.toURI().toString());
+        brandingImageView.setImage(brandingImage);
 
         URL brandingUrl = getClass().getResource("/Logo1.png");
         if (brandingUrl != null) {
@@ -71,23 +98,55 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void cancelButtonOnAction(ActionEvent event){
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
+
+    public void goToRegisterButtonOnAction(ActionEvent event){
+        RegisterController registerController = new RegisterController();
+        registerController.start();
+        Stage stage = (Stage) goToRegisterButton.getScene().getWindow();
         stage.close();
     }
 
     public void validateLogin() throws IOException {
+        String username = usernameTextField.getText();
+        String password = passwordTextField.getText();
+        if(userChecker.checkIfCorrectLogin(TwoFeetApp.getUsers(), username, password) == true){
+            loginMessageLabel.setText("Success!");
+            MainPageController mainPageController = new MainPageController();
+            mainPageController.start();
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.close();
+        }else{
+            loginMessageLabel.setText("Wrong Username or Password");
+        }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainpage.fxml"));
-        Stage stage = new Stage();
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.setScene(new Scene(loader.load(), 520, 600));
-        stage.show();
 
-        // luk login vinduet
-        Stage currentStage = (Stage) loginButton.getScene().getWindow();
-        currentStage.close();
+
+    }
+        /*
+        String verifyLogin = "SELECT * FROM user_account WHERE username = '" + usernameTextField.getText() + "' AND password ='" + passwordTextField.getText() + "' ";
+
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(verifyLogin);
+
+            while(rs.next()){
+                if(rs.getInt(1) == 1){
+                    //loginMessageLabel.setText("You successfully logged in!");
+                    createAccountForm();
+                } else {
+                    loginMessageLabel.setText("Invalid username or password");
+                }
+
+            }
+
+        } catch (SQLException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    public void createAccountForm() throws IOException {
+        MainPageController mainPageController = new MainPageController();
+        mainPageController.start();
+    }
+*/
 }
-

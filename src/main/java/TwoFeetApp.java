@@ -9,10 +9,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TwoFeetApp extends Application {
 
+    private static HashSet<User> users = new HashSet<>();
     private HelpService helpService = new HelpService();
     private Stage primaryStage;
 
@@ -151,7 +154,17 @@ public class TwoFeetApp extends Application {
         };
     }
 
+    public static void addUser(User user){
+        users.add(user);
+    }
+
+    public static HashSet<User> getUsers() {
+        return users;
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
+
+
 }

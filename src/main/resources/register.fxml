@@ -9,61 +9,91 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="523.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.RegisterController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="844.0" prefWidth="399.0" style="-fx-background-color: #02213A;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.RegisterController">
     <children>
-        <AnchorPane prefHeight="82.0" prefWidth="520.0" style="-fx-background-color: #02213A;">
+        <AnchorPane prefHeight="50.0" prefWidth="390.0" style="-fx-background-color: #02213A;">
             <children>
-                <ImageView fx:id="shieldImageView" fitHeight="42.0" fitWidth="69.0" layoutX="32.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@Shield.png" />
-                    </image>
-                </ImageView>
-                <Label layoutX="88.0" layoutY="33.0" text="User Registration" textFill="WHITE">
+                <Label layoutX="30.0" layoutY="22.0" prefHeight="42.0" prefWidth="220.0" text="User Registration" textFill="#f49338">
                     <font>
-                        <Font name="Calibri" size="18.0" />
+                        <Font name="Calibri Bold" size="30.0" />
                     </font>
                 </Label>
+            <ImageView fx:id="shieldImageView" fitHeight="42.0" fitWidth="133.0" layoutX="257.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Shield.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="78.0" fitWidth="80.0" layoutX="318.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Logo1.png" />
+               </image>
+            </ImageView>
             </children>
         </AnchorPane>
-        <Label layoutX="92.0" layoutY="115.0" text="First Name">
+        <Label layoutX="30.0" layoutY="97.0" text="First Name" textFill="WHITE">
             <font>
-                <Font name="Calibri" size="13.0" />
+                <Font name="Calibri" size="18.0" />
             </font>
         </Label>
-        <TextField fx:id="firstnameTextField" layoutX="92.0" layoutY="134.0" prefHeight="25.0" prefWidth="336.0" promptText="First Name" />
-        <Label layoutX="92.0" layoutY="178.0" text="Last Name">
+        <TextField fx:id="firstnameTextField" layoutX="32.0" layoutY="132.0" prefHeight="25.0" prefWidth="336.0" promptText="First Name">
+         <font>
+            <Font name="Calibri" size="16.0" />
+         </font></TextField>
+        <Label layoutX="31.0" layoutY="172.0" text="Last Name" textFill="WHITE">
             <font>
-                <Font name="Calibri" size="13.0" />
+                <Font name="Calibri" size="18.0" />
             </font>
         </Label>
-        <TextField fx:id="lastnameTextField" layoutX="92.0" layoutY="197.0" prefHeight="25.0" prefWidth="336.0" promptText="Last Name" />
-        <Label layoutX="92.0" layoutY="238.0" text="Username">
+        <TextField fx:id="lastnameTextField" layoutX="32.0" layoutY="203.0" prefHeight="25.0" prefWidth="336.0" promptText="Last Name">
+         <font>
+            <Font name="Calibri" size="16.0" />
+         </font></TextField>
+        <Label layoutX="32.0" layoutY="241.0" text="Username" textFill="WHITE">
             <font>
-                <Font name="Calibri" size="13.0" />
+                <Font name="Calibri" size="18.0" />
             </font>
         </Label>
-        <TextField fx:id="usernameTextField" layoutX="92.0" layoutY="257.0" prefHeight="25.0" prefWidth="336.0" promptText="Username" />
-        <Label layoutX="94.0" layoutY="298.0" text="Password">
+        <TextField fx:id="usernameTextField" layoutX="30.0" layoutY="269.0" prefHeight="25.0" prefWidth="336.0" promptText="Username">
+         <font>
+            <Font name="Calibri" size="16.0" />
+         </font></TextField>
+        <Label layoutX="34.0" layoutY="310.0" text="Password" textFill="WHITE">
             <font>
-                <Font name="Calibri" size="13.0" />
+                <Font name="Calibri" size="18.0" />
             </font>
         </Label>
-        <Label layoutX="92.0" layoutY="361.0" text="Confirm Password">
+        <Label layoutX="30.0" layoutY="380.0" text="Confirm Password" textFill="WHITE">
             <font>
-                <Font name="Calibri" size="13.0" />
+                <Font name="Calibri" size="18.0" />
             </font>
         </Label>
-        <PasswordField fx:id="setPasswordField" layoutX="92.0" layoutY="315.0" prefHeight="25.0" prefWidth="336.0" promptText="Password" />
-        <PasswordField fx:id="confirmPasswordField" layoutX="92.0" layoutY="378.0" prefHeight="25.0" prefWidth="336.0" promptText="Confirm Password" />
-        <Button fx:id="createUserButton" layoutX="92.0" layoutY="423.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="336.0" style="-fx-background-color: #02213A;" text="Create User" textFill="WHITE">
+        <PasswordField fx:id="setPasswordField" layoutX="32.0" layoutY="342.0" prefHeight="25.0" prefWidth="336.0" promptText="Password">
+         <font>
+            <Font name="Calibri" size="16.0" />
+         </font></PasswordField>
+        <PasswordField fx:id="confirmPasswordField" layoutX="32.0" layoutY="408.0" prefHeight="25.0" prefWidth="336.0" promptText="Confirm Password">
+         <font>
+            <Font name="Calibri" size="16.0" />
+         </font></PasswordField>
+        <Button fx:id="createUserButton" layoutX="32.0" layoutY="520.0" mnemonicParsing="false" onAction="#createUserButtonOnAction" prefHeight="60.0" prefWidth="336.0" style="-fx-background-color: #F49338;" text="Create User" textFill="WHITE">
             <font>
-                <Font name="Calibri" size="13.0" />
+                <Font name="Calibri Bold" size="18.0" />
             </font>
         </Button>
-        <Button fx:id="closeButton" layoutX="92.0" layoutY="464.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="336.0" style="-fx-background-color: #02213A;" text="Close" textFill="WHITE">
+        <Button fx:id="goToLoginButton" layoutX="30.0" layoutY="707.0" mnemonicParsing="false" onAction="#goToLoginButtonOnAction" prefHeight="60.0" prefWidth="336.0" style="-fx-background-color: #F49338;" text="Go to Login" textFill="WHITE">
             <font>
-                <Font name="Calibri" size="13.0" />
+                <Font name="Calibri Bold" size="18.0" />
             </font>
         </Button>
+      <Label layoutX="30.0" layoutY="677.0" text="Already a user? Go to Login instead" textFill="WHITE">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="registerCheckLabel" alignment="CENTER" layoutX="6.0" layoutY="443.0" prefHeight="71.0" prefWidth="388.0" textFill="#ff0808">
+         <font>
+            <Font name="Calibri" size="14.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

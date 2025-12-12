@@ -9,8 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import javax.imageio.IIOException;
 import java.io.IOException;
 
 public class TodoController {
