@@ -95,11 +95,7 @@ public class MainPageController implements Initializable {
         current.close();
     }
 
-    // ✅ Budget (bare placeholder)
-    @FXML
-    private void budgetButtonOnAction(ActionEvent event) {
-        System.out.println("Budget clicked (kan laves senere)");
-    }
+
 
     @FXML
     public void budgetButtonOnAction(ActionEvent event) {
