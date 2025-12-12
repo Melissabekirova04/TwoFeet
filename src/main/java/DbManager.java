@@ -85,7 +85,7 @@ public class DbManager {
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-            pstmt.setString(1, username);   // Værdi for ?
+            pstmt.setString(1, username);   // VÃ¦rdi for ?
 
             try (ResultSet rs = pstmt.executeQuery()) {
 
@@ -136,5 +136,20 @@ public class DbManager {
         }
     }
 
-}
+    public void insertBudgetEntry(double amount, String type, double balanceAfter) {
+        String sql = "INSERT INTO budget (amount, type, balance_after) VALUES (?, ?, ?)";
 
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setDouble(1, amount);
+            stmt.setString(2, type);  // "deposit" or "withdraw"
+            stmt.setDouble(3, balanceAfter);
+            stmt.executeUpdate();
+
+            System.out.println("Budget entry saved.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+}
