@@ -45,8 +45,6 @@ public class RegisterController implements Initializable {
     @FXML
     private Label registerCheckLabel;
     @FXML
-    private Label registerCheckLabel1;
-    @FXML
     private Button registerCloseButton;
 
     private UserChecker userChecker = new UserChecker();
@@ -69,8 +67,6 @@ public class RegisterController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        System.out.println("Working directory: " + System.getProperty("user.dir"));
-
         File shieldFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Shield.png");
         Image shieldImage = new Image(shieldFile.toURI().toString());
         shieldImageView.setImage(shieldImage);
