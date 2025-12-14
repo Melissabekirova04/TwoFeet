@@ -1,22 +1,24 @@
-
-
 package main.java;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import java.io.IOException;
 
 public class TodoController {
 
     @FXML private TextField usernameField;
     @FXML private TextField taskField;
-    @FXML
-    private ListView<Task> taskListView;
+    @FXML private ListView<Task> taskListView;
+
+    @FXML private Button backButton;
 
     private DbManager dbManager;
     private Runnable onSuccess;
@@ -34,12 +36,12 @@ public class TodoController {
 
             TodoController controller = fxmlLoader.getController();
             controller.initData(dbManager, onSuccess);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    // Kald denne fra den kode som loader FXML
     private void initData(DbManager dbManager, Runnable onSuccess) {
         this.dbManager = dbManager;
         this.onSuccess = onSuccess;
@@ -56,26 +58,22 @@ public class TodoController {
             return;
         }
 
-        // Opretter brugeren hvis brugeren ikke findes
         if (dbManager.getUserId(username) == null) {
-            dbManager.addUser(username); // opret bruger
+            dbManager.addUser(username);
         }
 
         dbManager.addTask(task, username);
 
-        // Callback for at opdatere hoved-UI (hvis du gav en)
         if (onSuccess != null) {
             loadTasksForUser(username);
             onSuccess.run();
         }
     }
 
-
     private void loadTasksForUser(String username) {
         var tasks = dbManager.getTasksForUser(username);
         taskListView.getItems().setAll(tasks);
     }
-
 
     private void setupDeleteButtons() {
         taskListView.setCellFactory(lv -> new ListCell<Task>() {
@@ -86,12 +84,11 @@ public class TodoController {
             {
                 container.getChildren().add(deleteButton);
 
-                // Når knappen trykkes, skal den slette tasken
                 deleteButton.setOnAction(e -> {
-                    Task item = getItem();  // Hent det aktuelle task-objekt
+                    Task item = getItem();
                     if (item != null) {
-                        dbManager.deleteTask(item.getId());  // Slet i databasen
-                        getListView().getItems().remove(item);  // Fjern fra GUI
+                        dbManager.deleteTask(item.getId());
+                        getListView().getItems().remove(item);
                     }
                 });
             }
@@ -104,13 +101,12 @@ public class TodoController {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    setText(item.getUsername() + ": " + item.getTask());  // Vis taskens navn og opgave
-                    setGraphic(container);  // Sæt knappen som grafisk indhold i cellen
+                    setText(item.getUsername() + ": " + item.getTask());
+                    setGraphic(container);
                 }
             }
         });
     }
-
 
     @FXML
     private void onCancel() {
@@ -118,10 +114,29 @@ public class TodoController {
         stage.close();
     }
 
+    // ✅ Back: åbn main menu i NYT vindue (UND) og luk Todo bagefter
+    @FXML
+    private void backButtonOnAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainpage.fxml"));
+
+            Stage mainStage = new Stage();
+            mainStage.initStyle(StageStyle.UNDECORATED);
+            mainStage.setScene(new Scene(loader.load(), 399, 844));
+            mainStage.show();
+
+            // luk nuværende todo-vindue bagefter
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Kunne ikke åbne mainpage.fxml");
+        }
+    }
+
     private void showAlert(Alert.AlertType type, String msg) {
         Alert a = new Alert(type, msg, ButtonType.OK);
         a.showAndWait();
     }
 }
-
-

@@ -56,8 +56,12 @@
 
                 <!-- Save Button -->
                 <Button text="Save to Database"
-                        onAction="#deposit"
+                        onAction="#saveToDatabase"
                         style="-fx-background-color: #3A7AFE; -fx-text-fill: white; -fx-background-radius: 10;"/>
+
+                <!-- Back Button -->
+                <Button fx:id="backButton" text="Back" onAction="#backButtonOnAction" />
+
             </VBox>
         </VBox>
     </children>

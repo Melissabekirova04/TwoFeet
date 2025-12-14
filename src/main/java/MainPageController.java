@@ -13,6 +13,9 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.java.util.CloseProgram;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -99,13 +102,34 @@ public class MainPageController implements Initializable {
     // ✅ Help Service
     @FXML
     private void helpServiceButtonOnAction(ActionEvent event) {
-        TwoFeetApp app = new TwoFeetApp();
-        Stage stage = new Stage();
-        app.start(stage);
+        System.out.println("Help Service clicked"); // debug
 
-        Stage current = (Stage) helpServiceButton.getScene().getWindow();
-        current.close();
+        try {
+            var url = getClass().getResource("/help_page.fxml");
+            if (url == null) {
+                System.out.println("FEJL: /help_page.fxml blev ikke fundet i resources!");
+                Alert a = new Alert(Alert.AlertType.ERROR, "Kunne ikke finde help_page.fxml i resources.", ButtonType.OK);
+                a.showAndWait();
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+
+            Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(new Scene(loader.load(), 520, 600));
+            stage.show();
+
+            Stage current = (Stage) helpServiceButton.getScene().getWindow();
+            current.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.ERROR, "Kunne ikke åbne help_page.fxml.\nSe Console for fejl.", ButtonType.OK);
+            a.showAndWait();
+        }
     }
+
 
 
 
