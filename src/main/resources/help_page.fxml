@@ -1,33 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="main.java.HelpPageController"
-      spacing="14"
-      prefWidth="520"
-      prefHeight="600">
+<VBox prefHeight="844.0" prefWidth="399.0" style="-fx-background-color: #02213A;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.HelpPageController">
 
-    <padding>
-        <Insets top="18" right="18" bottom="18" left="18"/>
-    </padding>
-
-    <Label text="Vælg en kategori" style="-fx-font-size: 34; -fx-font-weight: bold;"/>
+    <Label prefHeight="91.0" prefWidth="274.0" text="Vælg en kategori" textFill="WHITE">
+      <font>
+         <Font name="Calibri Bold" size="36.0" />
+      </font>
+      <VBox.margin>
+         <Insets left="25.0" />
+      </VBox.margin></Label>
 
     <!-- Her kan du enten bruge ListView eller ComboBox alt efter din løsning -->
-    <ListView fx:id="categoryList" prefHeight="420"/>
-
-    <!-- Knapper i bunden -->
-    <HBox spacing="12">
-        <Button fx:id="backButton" text="Tilbage" onAction="#backButtonOnAction"/>
-        <Region HBox.hgrow="ALWAYS"/>
-        <Button fx:id="nextButton" text="Frem →" onAction="#nextButtonOnAction" disable="true"/>
-
-
-
-    </HBox>
+    <ListView fx:id="categoryList" prefHeight="725.0" prefWidth="399.0" />
+   <AnchorPane prefHeight="123.0" prefWidth="399.0">
+      <children>
+      
+          <!-- Knapper i bunden -->
+          <HBox layoutX="7.0" layoutY="27.0" prefHeight="50.0" prefWidth="386.0" spacing="12">
+            <children>
+                 <Button fx:id="backButton" onAction="#backButtonOnAction" prefHeight="44.0" prefWidth="127.0" text="← Tilbage">
+                  <font>
+                     <Font name="Calibri Bold" size="18.0" />
+                  </font>
+               </Button>
+                 <Region prefHeight="25.0" prefWidth="192.0" />
+                 <Button fx:id="nextButton" onAction="#nextButtonOnAction" prefHeight="44.0" prefWidth="127.0" text="Frem →">
+                  <font>
+                     <Font name="Calibri Bold" size="18.0" />
+                  </font>
+               </Button>
+            </children>
+      
+      
+      
+          </HBox>
+      </children>
+   </AnchorPane>
 
 </VBox>

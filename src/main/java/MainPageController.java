@@ -117,7 +117,7 @@ public class MainPageController implements Initializable {
 
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.setScene(new Scene(loader.load(), 520, 600));
+            stage.setScene(new Scene(loader.load(), 399, 844));
             stage.show();
 
             Stage current = (Stage) helpServiceButton.getScene().getWindow();

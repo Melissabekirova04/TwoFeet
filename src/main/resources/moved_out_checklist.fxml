@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600" prefWidth="520" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.MovedOutChecklistController">
+<BorderPane prefHeight="844.0" prefWidth="399.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.MovedOutChecklistController">
 
     <top>
         <VBox alignment="CENTER_LEFT" spacing="8" style="-fx-background-color: #02213A;">
@@ -33,15 +33,17 @@
                 <Insets bottom="20" left="20" right="20" top="30" />
             </padding>
 
-            <Button onAction="#onBeforeMovingOut" prefHeight="41.0" prefWidth="240" text="Before moving out">
+               <Button onAction="#onBeforeMovingOut" prefHeight="41.0" prefWidth="240" text="Before moving out">
             <font>
                <Font name="Calibri" size="14.0" />
-            </font></Button>
+            </font>
+         </Button>
 
-            <Button onAction="#onStarterPack" prefHeight="42.0" prefWidth="240" text="Starter pack">
+               <Button onAction="#onStarterPack" prefHeight="42.0" prefWidth="240" text="Starter pack">
             <font>
                <Font name="Calibri" size="14.0" />
-            </font></Button>
+            </font>
+         </Button>
         </VBox>
     </center>
 
