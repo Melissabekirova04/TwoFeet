@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Pos?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
@@ -11,66 +10,91 @@
             fx:controller="main.java.BudgetController">
 
     <children>
-        <VBox alignment="TOP_CENTER" spacing="20" AnchorPane.topAnchor="20"
-              AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <VBox spacing="16" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20"
+              AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
 
-            <!-- Header -->
-            <Label text="Budget Manager" style="-fx-font-weight: bold;">
-                <font>
-                    <Font size="26"/>
-                </font>
+            <Label text="Budget" style="-fx-font-weight: bold;">
+                <font><Font size="26"/></font>
             </Label>
 
-            <!-- Card Container -->
-            <VBox spacing="18" alignment="CENTER"
-                  style="-fx-background-color: #f2f2f7; -fx-background-radius: 16;"
-                  prefWidth="420" prefHeight="300">
-                <padding>
-                    <Insets top="25" right="25" bottom="25" left="25"/>
-                </padding>
+            <!-- Periode -->
+            <VBox spacing="6" style="-fx-background-color: #f2f2f7; -fx-background-radius: 16;">
+                <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
 
-                <!-- Balance Display -->
-                <HBox spacing="10" alignment="CENTER">
-                    <Label text="Balance:" style="-fx-font-size: 18;" />
-                    <Label fx:id="balanceLabel" text="0.00 kr"
-                           style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                <Label text="Vælg periode" style="-fx-font-weight: bold;"/>
+                <ComboBox fx:id="periodCombo" prefWidth="240"/>
+
+                <HBox spacing="10">
+                    <Label text="Periode:"/>
+                    <Label fx:id="periodDatesLabel" text="-" />
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label text="Dage:"/>
+                    <Label fx:id="daysLabel" text="-" />
                 </HBox>
-
-                <!-- Amount Input -->
-                <VBox spacing="6" alignment="CENTER">
-                    <Label text="Amount:"/>
-                    <TextField fx:id="amountField" promptText="Enter amount"
-                               prefWidth="220"
-                               style="-fx-background-radius: 8;"/>
-                </VBox>
-
-                <!-- Action Buttons -->
-                <HBox spacing="15" alignment="CENTER">
-                    <Button text="Deposit"
-                            onAction="#deposit"
-                            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 8;"/>
-                    <Button text="Withdraw"
-                            onAction="#withdraw"
-                            style="-fx-background-color: #FF6B6B; -fx-text-fill: white; -fx-background-radius: 8;"/>
-                </HBox>
-
-                <!-- Budget History Table -->
-                <TableView fx:id="budgetTable" prefHeight="200" prefWidth="380">
-                    <columns>
-                        <TableColumn fx:id="amountColumn" text="Amount" prefWidth="80"/>
-                        <TableColumn fx:id="timestampColumn" text="Timestamp" prefWidth="120"/>
-                    </columns>
-                </TableView>
-
-                <!-- Save Button -->
-                <Button text="Save to Database"
-                        onAction="#saveToDatabase"
-                        style="-fx-background-color: #3A7AFE; -fx-text-fill: white; -fx-background-radius: 10;"/>
-
-                <!-- Back Button -->
-                <Button fx:id="backButton" text="Back" onAction="#backButtonOnAction" />
-
             </VBox>
+
+            <!-- Input -->
+            <VBox spacing="10" style="-fx-background-color: #f2f2f7; -fx-background-radius: 16;">
+                <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+
+                <Label text="Indtast budget" style="-fx-font-weight: bold;"/>
+
+                <HBox spacing="10">
+                    <VBox spacing="4">
+                        <Label text="Budget/indtægt for perioden (kr.)"/>
+                        <TextField fx:id="incomeField" promptText="fx 8000"/>
+                    </VBox>
+                    <VBox spacing="4">
+                        <Label text="Opsparing (kr.)"/>
+                        <TextField fx:id="savingsField" promptText="fx 500"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Faste udgifter -->
+            <VBox spacing="10" style="-fx-background-color: #f2f2f7; -fx-background-radius: 16;">
+                <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+
+                <Label text="Faste udgifter" style="-fx-font-weight: bold;"/>
+
+                <HBox spacing="10">
+                    <TextField fx:id="expenseNameField" promptText="Navn (fx Husleje)" prefWidth="220"/>
+                    <TextField fx:id="expenseAmountField" promptText="Beløb (kr.)" prefWidth="120"/>
+                    <Button text="Tilføj" onAction="#addExpense"/>
+                    <Button text="Fjern valgt" onAction="#removeSelectedExpense"/>
+                </HBox>
+
+                <ListView fx:id="expensesList" prefHeight="120"/>
+            </VBox>
+
+            <!-- Resultat -->
+            <VBox spacing="8" style="-fx-background-color: #f2f2f7; -fx-background-radius: 16;">
+                <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+
+                <Label text="Resultat" style="-fx-font-weight: bold;"/>
+
+                <HBox spacing="10">
+                    <Label text="Faste udgifter i alt:"/>
+                    <Label fx:id="totalFixedLabel" text="0.00 kr"/>
+                </HBox>
+
+                <HBox spacing="10">
+                    <Label text="Rådighedsbeløb:"/>
+                    <Label fx:id="disposableLabel" text="-" />
+                </HBox>
+
+                <HBox spacing="10">
+                    <Label text="Dagligdags-budget:" style="-fx-font-weight: bold;"/>
+                    <Label fx:id="dailyBudgetLabel" text="-" style="-fx-font-weight: bold;"/>
+                </HBox>
+
+                <Button text="Beregn budget"
+                        onAction="#calculateBudget"
+                        style="-fx-background-color: #3A7AFE; -fx-text-fill: white; -fx-background-radius: 10;"/>
+            </VBox>
+
+            <Button fx:id="backButton" text="Back" onAction="#backButtonOnAction"/>
+
         </VBox>
     </children>
 </AnchorPane>
