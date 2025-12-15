@@ -1,8 +1,12 @@
+
+
 package main.java;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -17,6 +21,9 @@ import java.util.ResourceBundle;
 public class TodoController implements Initializable {
 
     @FXML private TextField taskField;
+    @FXML private ListView<Task> taskListView;
+
+    @FXML private Button backButton;
     @FXML private ListView<Task> taskListView;
 
     private DbManager dbManager;
@@ -68,11 +75,17 @@ public class TodoController implements Initializable {
             private final HBox box = new HBox(10, deleteButton);
 
             {
+                container.getChildren().add(deleteButton);
+
                 deleteButton.setOnAction(e -> {
                     Task task = getItem();
                     if (task != null) {
                         dbManager.deleteTask(task.getId());
                         getListView().getItems().remove(task);
+                    Task item = getItem();
+                    if (item != null) {
+                        dbManager.deleteTask(item.getId());
+                        getListView().getItems().remove(item);
                     }
                 });
             }
@@ -87,14 +100,43 @@ public class TodoController implements Initializable {
                 } else {
                     setText(item.getTask());
                     setGraphic(box);
+                    setText(item.getUsername() + ": " + item.getTask());
+                    setGraphic(container);
                 }
             }
         });
     }
 
+
     @FXML
     private void onCancel() {
         Stage stage = (Stage) taskField.getScene().getWindow();
         stage.close();
+    }
+
+    // ✅ Back: åbn main menu i NYT vindue (UND) og luk Todo bagefter
+    @FXML
+    private void backButtonOnAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainpage.fxml"));
+
+            Stage mainStage = new Stage();
+            mainStage.initStyle(StageStyle.UNDECORATED);
+            mainStage.setScene(new Scene(loader.load(), 399, 844));
+            mainStage.show();
+
+            // luk nuværende todo-vindue bagefter
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Kunne ikke åbne mainpage.fxml");
+        }
+    }
+
+    private void showAlert(Alert.AlertType type, String msg) {
+        Alert a = new Alert(type, msg, ButtonType.OK);
+        a.showAndWait();
     }
 }

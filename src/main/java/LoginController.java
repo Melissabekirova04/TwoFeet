@@ -50,6 +50,8 @@ public class LoginController implements Initializable {
     private PasswordField passwordTextField;
     @FXML
     private Button loginButton;
+    @FXML
+    private Button loginCloseButton;
 
 
 
@@ -158,31 +160,10 @@ public class LoginController implements Initializable {
 
 
     }
-        /*
-        String verifyLogin = "SELECT * FROM user_account WHERE username = '" + usernameTextField.getText() + "' AND password ='" + passwordTextField.getText() + "' ";
 
-        try{
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(verifyLogin);
-
-            while(rs.next()){
-                if(rs.getInt(1) == 1){
-                    //loginMessageLabel.setText("You successfully logged in!");
-                    createAccountForm();
-                } else {
-                    loginMessageLabel.setText("Invalid username or password");
-                }
-
-            }
-
-        } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void loginCloseButtonOnAction(){
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        CloseProgram.close(stage);
     }
 
-    public void createAccountForm() throws IOException {
-        MainPageController mainPageController = new MainPageController();
-        mainPageController.start();
-    }
-*/
 }

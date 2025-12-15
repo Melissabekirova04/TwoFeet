@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="main.java.HelpPageController"
+      spacing="14"
+      prefWidth="520"
+      prefHeight="600">
+
+    <padding>
+        <Insets top="18" right="18" bottom="18" left="18"/>
+    </padding>
+
+    <Label text="Vælg en kategori" style="-fx-font-size: 34; -fx-font-weight: bold;"/>
+
+    <!-- Her kan du enten bruge ListView eller ComboBox alt efter din løsning -->
+    <ListView fx:id="categoryList" prefHeight="420"/>
+
+    <!-- Knapper i bunden -->
+    <HBox spacing="12">
+        <Button fx:id="backButton" text="Tilbage" onAction="#backButtonOnAction"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="nextButton" text="Frem →" onAction="#nextButtonOnAction" disable="true"/>
+
+
+
+    </HBox>
+
+</VBox>

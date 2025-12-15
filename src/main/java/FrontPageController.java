@@ -12,7 +12,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import javafx.event.ActionEvent;
+import main.java.util.CloseProgram;
+
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -25,6 +28,8 @@ public class FrontPageController implements Initializable {
     private Button firstRegisterButton;
     @FXML
     private Button firstCloseButton;
+    @FXML
+    private Button skipToMainButton;
 
 
 
@@ -63,6 +68,17 @@ public class FrontPageController implements Initializable {
 
     public void firstCloseButtonOnAction(ActionEvent event){
         Stage stage = (Stage) firstCloseButton.getScene().getWindow();
-        stage.close();
+        CloseProgram.close(stage);
+    }
+
+    public void skipToMainButtonOnAction(ActionEvent event){
+        MainPageController mainPageController = new MainPageController();
+        try {
+            mainPageController.start();
+            Stage stage = (Stage) skipToMainButton.getScene().getWindow();
+            stage.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

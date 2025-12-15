@@ -46,5 +46,10 @@
                 <Font name="Calibri Bold" size="18.0" />
             </font>
         </Button>
+      <Button fx:id="skipToMainButton" layoutX="87.0" layoutY="616.0" mnemonicParsing="false" onAction="#skipToMainButtonOnAction" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #F49338;" text="SKIP TO MAIN MENU" textFill="WHITE">
+         <font>
+            <Font name="Calibri Bold" size="18.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>

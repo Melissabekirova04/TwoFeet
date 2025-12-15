@@ -1,5 +1,7 @@
 package main.java;
 
+import java.util.Scanner;
+
 public class Budget {
     private double amount;
     private double balanceAfter;
@@ -15,6 +17,11 @@ public class Budget {
         return amount;
     }
 
+    public double withDraw(double balance){
+        double amount;
+        System.out.println("Enter amount to withdraw");
+        amount = scanner.nextDouble();
+
     public double getBalanceAfter() {
         return balanceAfter;
     }
@@ -22,4 +29,5 @@ public class Budget {
     public String getTimestamp() {
         return timestamp;
     }
+
 }
