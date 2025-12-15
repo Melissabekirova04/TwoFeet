@@ -46,6 +46,8 @@ public class RegisterController implements Initializable {
     private Label registerCheckLabel;
     @FXML
     private Button registerCloseButton;
+    @FXML
+    private Label userMadeLabel;
 
     private UserChecker userChecker = new UserChecker();
 
@@ -121,7 +123,7 @@ public class RegisterController implements Initializable {
         } else {
             User user = new User(firstname, lastname, username, password);
             TwoFeetApp.addUser(user);
-            registerCheckLabel.setText("User made!");
+            userMadeLabel.setText("User made!");
 
             //Duration fundet fra AI, da Thread.sleep ikke opdatere billedet.
             PauseTransition pause = new PauseTransition(Duration.seconds(1));
