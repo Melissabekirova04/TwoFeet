@@ -33,9 +33,15 @@
                 <Insets bottom="20" left="20" right="20" top="30" />
             </padding>
 
-            <Button onAction="#onBeforeMovingOut" prefWidth="240" text="Before moving out" />
+            <Button onAction="#onBeforeMovingOut" prefHeight="41.0" prefWidth="240" text="Before moving out">
+            <font>
+               <Font name="Calibri" size="14.0" />
+            </font></Button>
 
-            <Button onAction="#onStarterPack" prefWidth="240" text="Starter pack" />
+            <Button onAction="#onStarterPack" prefHeight="42.0" prefWidth="240" text="Starter pack">
+            <font>
+               <Font name="Calibri" size="14.0" />
+            </font></Button>
         </VBox>
     </center>
 

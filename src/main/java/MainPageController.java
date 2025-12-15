@@ -78,7 +78,7 @@ public class MainPageController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/moved_out_checklist.fxml"));
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.setScene(new Scene(loader.load(), 520, 600));
+            stage.setScene(new Scene(loader.load(), 399, 844));
             stage.show();
 
             // luk main page

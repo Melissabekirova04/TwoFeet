@@ -64,7 +64,7 @@ public class MovedOutChecklistController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/moved_out_detail.fxml"));
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.setScene(new Scene(loader.load(), 520, 600));
+            stage.setScene(new Scene(loader.load(), 399, 844));
 
             MovedOutDetailController controller = loader.getController();
             controller.setData(title, text);
