@@ -11,21 +11,12 @@ public class Task {
         this.task = task;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getTask() {
-        return task;
-    }
+    public int getId() { return id; }
+    public String getUsername() { return username; }
+    public String getTask() { return task; }
 
     @Override
     public String toString() {
-        return username + ": " + task;
+        return task; // for ListView display
     }
-
 }

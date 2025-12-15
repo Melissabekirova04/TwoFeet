@@ -50,6 +50,8 @@ public class RegisterController implements Initializable {
     private Label userMadeLabel;
 
     private UserChecker userChecker = new UserChecker();
+    private DbManager dbManager = new DbManager();
+
 
 
     public void start(){
@@ -83,7 +85,41 @@ public class RegisterController implements Initializable {
     }
 
 
-    public void createUserButtonOnAction() {
+
+    @FXML
+    public void registerOnAction() {
+        String username = usernameTextField.getText();
+        String password = setPasswordField.getText();
+        String confirmPassword = confirmPasswordField.getText();
+
+        if (username == null || username.isBlank()) return;
+        if (password == null || password.isBlank()) return;
+
+        if (!password.equals(confirmPassword)) {
+            registerCheckLabel.setText("Passwords do not match");
+            return;
+        }
+
+        String passwordHash = hashPassword(password);
+
+        int userId = dbManager.registerUser(
+                username,
+                username + "@example.com",
+                passwordHash
+        );
+
+        if (userId != -1) {
+            registerCheckLabel.setText("User created successfully!");
+        } else {
+            registerCheckLabel.setText("Username already exists");
+        }
+    }
+
+    private String hashPassword(String password) {
+        return Integer.toHexString(password.hashCode());
+    }
+
+    /*public void createUserButtonOnAction() {
         //Omdan til String objekter
         String firstname = firstnameTextField.getText();
         String lastname = lastnameTextField.getText();
@@ -146,4 +182,5 @@ public class RegisterController implements Initializable {
         CloseProgram.close(stage);
     }
 
+    }*/
 }
