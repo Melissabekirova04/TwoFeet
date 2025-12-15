@@ -22,107 +22,131 @@ public class DbManager {
         return connection;
     }
 
-    public void addUser(String name) {
+    public int registerUser(String username, String email, String passwordHash) {
         if (connection == null) connect();
 
-        String sql = "INSERT OR IGNORE INTO todolists(username) VALUES (?)"; // OR IGNORE avoids duplicate errors
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, name);
+        String sql = """
+        INSERT INTO users (username, email, password_hash)
+        VALUES (?, ?, ?)
+    """;
+
+        try (PreparedStatement stmt =
+                     connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setString(1, username);
+            stmt.setString(2, email);
+            stmt.setString(3, passwordHash);
             stmt.executeUpdate();
-            System.out.println("User added: " + name);
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1); // user_id
+            }
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("UNIQUE")) {
+                System.out.println("Username or email already exists");
+            } else {
+                e.printStackTrace();
+            }
         }
+        return -1;
     }
 
-    public void addTask(String task, String username) {
+
+    public void addTodo(int userId, String task) {
         if (connection == null) connect();
 
-        Integer userId = getUserId(username);
-        if (userId == null) {
-            System.out.println("User not found: " + username);
-            return;
-        }
+        String sql = "INSERT INTO todolists (user_id, task) VALUES (?, ?)";
 
-        String sql = "INSERT INTO todoLists(username, task) VALUES (?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, username);
+            stmt.setInt(1, userId);
             stmt.setString(2, task);
             stmt.executeUpdate();
-            System.out.println("Task added for userId=" + userId);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public List<TaskEntry> getAllTasks() {
-        List<TaskEntry> list = new ArrayList<>();
+    public List<Task> getTodos(int userId) {
+        if (connection == null) connect();
 
-        String sql = "SELECT username, task FROM todolists";
+        List<Task> todos = new ArrayList<>();
+        String sql = "SELECT taskid, task FROM todolists WHERE user_id = ?";
 
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                list.add(new TaskEntry(
-                        rs.getString("username"),
+                todos.add(new Task(
+                        rs.getInt("taskid"),
+                        null,
                         rs.getString("task")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return todos;
+    }
+
+
+
+    public List<Budget> getBudget(int userId) {
+        if (connection == null) connect();
+
+        List<Budget> entries = new ArrayList<>();
+
+        String sql = """
+        SELECT amount, balance_after, timestamp
+        FROM budget
+        WHERE user_id = ?
+        ORDER BY timestamp DESC
+    """;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                entries.add(new Budget(
+                        rs.getDouble("amount"),
+                        rs.getDouble("balance_after"),
+                        rs.getString("timestamp")
                 ));
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return list;
+        return entries;
     }
 
-    public List<Task> getTasksForUser(String username) {
+    public int loginUser(String username, String passwordHash) {
         if (connection == null) connect();
-        List<Task> listForUser = new ArrayList<>();
 
-        String sql = "SELECT * FROM todolists WHERE username = ?";
+        String sql = """
+        SELECT id FROM users
+        WHERE username = ? AND password_hash = ?
+    """;
 
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-
-            pstmt.setString(1, username);   // VÃ¦rdi for ?
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-
-                while (rs.next()) {
-                    listForUser.add(new Task(
-                            rs.getInt("taskid"),
-                            rs.getString("username"),
-                            rs.getString("task")
-                    ));
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return listForUser;
-    }
-
-
-    public record TaskEntry(String username, String task) {}
-
-
-    public Integer getUserId(String username) {
-        if (connection == null) connect();
-        String sql = "SELECT taskid FROM todolists WHERE username = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, username);
+            stmt.setString(2, passwordHash);
+
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getInt("taskid");
+                return rs.getInt("id");
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return -1; // login failed
     }
+
 
     public void deleteTask(int taskId) {
         if (connection == null) connect();
@@ -136,20 +160,23 @@ public class DbManager {
         }
     }
 
-    public void insertBudgetEntry(double amount, String type, double balanceAfter) {
-        String sql = "INSERT INTO budget (amount, type, balance_after) VALUES (?, ?, ?)";
+    public void insertBudgetEntry(int userId, double amount,  double balanceAfter) {
+        if (connection == null) connect();
+
+        String sql = "INSERT INTO budget (user_id, amount, balance_after) VALUES ( ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setDouble(1, amount);
-            stmt.setString(2, type);  // "deposit" or "withdraw"
-            stmt.setDouble(3, balanceAfter);
-            stmt.executeUpdate();
+            stmt.setInt(1, userId);        // user who is logged in
+            stmt.setDouble(2, amount);     // deposit/withdraw amount
+            stmt.setDouble(3, balanceAfter); // new balance
 
+            stmt.executeUpdate();
             System.out.println("Budget entry saved.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
 
 }

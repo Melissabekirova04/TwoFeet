@@ -54,6 +54,14 @@
                             style="-fx-background-color: #FF6B6B; -fx-text-fill: white; -fx-background-radius: 8;"/>
                 </HBox>
 
+                <!-- Budget History Table -->
+                <TableView fx:id="budgetTable" prefHeight="200" prefWidth="380">
+                    <columns>
+                        <TableColumn fx:id="amountColumn" text="Amount" prefWidth="80"/>
+                        <TableColumn fx:id="timestampColumn" text="Timestamp" prefWidth="120"/>
+                    </columns>
+                </TableView>
+
                 <!-- Save Button -->
                 <Button text="Save to Database"
                         onAction="#deposit"

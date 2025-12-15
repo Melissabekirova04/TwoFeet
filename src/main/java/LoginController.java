@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.java.util.CloseProgram;
 import main.java.util.UserChecker;
 
 import java.io.File;
@@ -27,9 +28,13 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     DBConnector dbConnector = new DBConnector();
-    //String url1 = "jdbc:sqlite:C:\\Users\\morte\\IdeaProjects\\SceneBuilderTest\\identifier.sqlite"; // DB-sti kan vi tage senere
-    String url1 ="jdbc:sqlite:identifier.sqlite";
+    String url1 = "jdbc:sqlite:identifier.sqlite";
     Connection connection;
+    private DbManager dbManager;
+
+    public static int currentUserId = -1;
+
+
 
     @FXML
     private Button goToRegisterButton;
@@ -46,7 +51,7 @@ public class LoginController implements Initializable {
     @FXML
     private Button loginButton;
 
-    private UserChecker userChecker = new UserChecker();
+
 
 
     public void start(){
@@ -65,11 +70,16 @@ public class LoginController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("Working directory: " + System.getProperty("user.dir"));
+
 
         dbConnector.connect(url1);
         connection = dbConnector.getConnection();
+        dbManager = new DbManager();
+
+        // STYLING
+
         File brandingFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Logo1.png");
         Image brandingImage = new Image(brandingFile.toURI().toString());
         brandingImageView.setImage(brandingImage);
@@ -84,7 +94,22 @@ public class LoginController implements Initializable {
             lockImageView.setImage(new Image(lockUrl.toExternalForm()));
         }
     }
-//stfu jasmin er dum hha
+
+    @FXML
+    public void LoginOnAction() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/mainpage.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            Stage stage = (Stage) usernameTextField.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void loginButtonOnAction(ActionEvent event){
 
         if(!usernameTextField.getText().isBlank() && !passwordTextField.getText().isBlank()){
@@ -106,10 +131,21 @@ public class LoginController implements Initializable {
         stage.close();
     }
 
+    private String hashPassword(String password) {
+        return Integer.toString(password.hashCode());
+    }
+
+
     public void validateLogin() throws IOException {
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
-        if(userChecker.checkIfCorrectLogin(TwoFeetApp.getUsers(), username, password) == true){
+
+        String passwordHash = hashPassword(password);
+
+        int userId = dbManager.loginUser(username, passwordHash);
+
+        if (userId != -1) {
+            currentUserId = userId; // REMEMBER USER
             loginMessageLabel.setText("Success!");
             MainPageController mainPageController = new MainPageController();
             mainPageController.start();

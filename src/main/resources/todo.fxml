@@ -6,7 +6,6 @@
       fx:controller="main.java.TodoController"
       spacing="10" alignment="CENTER" prefWidth="400" prefHeight="400">
     <TextField fx:id="taskField" promptText="Enter task"/>
-    <TextField fx:id="usernameField" promptText="Enter username"/>
-    <Button text="Add Task" onAction="#onAdd"/>
+    <Button text="Add Task" onAction="#addTodoOnAction"/>
     <ListView fx:id="taskListView" prefHeight="250"/>
 </VBox>

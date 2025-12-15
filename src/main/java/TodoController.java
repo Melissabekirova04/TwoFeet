@@ -1,97 +1,78 @@
-
-
 package main.java;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class TodoController {
+public class TodoController implements Initializable {
 
-    @FXML private TextField usernameField;
     @FXML private TextField taskField;
-    @FXML
-    private ListView<Task> taskListView;
+    @FXML private ListView<Task> taskListView;
 
     private DbManager dbManager;
-    private Runnable onSuccess;
 
-    public void startTodo(){
+    public void startTodo() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/todo.fxml"));
-            Stage registerStage = new Stage();
-            registerStage.initStyle(StageStyle.UNDECORATED);
-            Scene scene = new Scene(fxmlLoader.load(), 520, 523);
-            registerStage.setScene(scene);
-            registerStage.show();
-
-            dbManager = new DbManager();
-
-            TodoController controller = fxmlLoader.getController();
-            controller.initData(dbManager, onSuccess);
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/todo.fxml"));
+            Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(new Scene(loader.load(), 520, 523));
+            stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
-    // Kald denne fra den kode som loader FXML
-    private void initData(DbManager dbManager, Runnable onSuccess) {
-        this.dbManager = dbManager;
-        this.onSuccess = onSuccess;
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        dbManager = new DbManager();
+        dbManager.connect();
+
         setupDeleteButtons();
+        loadTodos();
     }
 
     @FXML
-    private void onAdd() {
-        String username = usernameField.getText() == null ? "" : usernameField.getText().trim();
-        String task = taskField.getText() == null ? "" : taskField.getText().trim();
+    public void addTodoOnAction() {
+        String task = taskField.getText();
 
-        if (username.isEmpty() || task.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Udfyld både bruger og opgave");
-            return;
-        }
+        if (task == null || task.isBlank()) return;
 
-        // Opretter brugeren hvis brugeren ikke findes
-        if (dbManager.getUserId(username) == null) {
-            dbManager.addUser(username); // opret bruger
-        }
+        int userId = LoginController.currentUserId;
+        dbManager.addTodo(userId, task);
 
-        dbManager.addTask(task, username);
-
-        // Callback for at opdatere hoved-UI (hvis du gav en)
-        if (onSuccess != null) {
-            loadTasksForUser(username);
-            onSuccess.run();
-        }
+        taskField.clear();
+        loadTodos();
     }
 
+    private void loadTodos() {
+        int userId = LoginController.currentUserId;
 
-    private void loadTasksForUser(String username) {
-        var tasks = dbManager.getTasksForUser(username);
-        taskListView.getItems().setAll(tasks);
+        List<Task> todos = dbManager.getTodos(userId);
+        taskListView.getItems().setAll(todos);
     }
-
 
     private void setupDeleteButtons() {
-        taskListView.setCellFactory(lv -> new ListCell<Task>() {
+        taskListView.setCellFactory(lv -> new ListCell<>() {
 
             private final Button deleteButton = new Button("Delete");
-            private final HBox container = new HBox(10);
+            private final HBox box = new HBox(10, deleteButton);
 
             {
-                container.getChildren().add(deleteButton);
-
-                // Når knappen trykkes, skal den slette tasken
                 deleteButton.setOnAction(e -> {
-                    Task item = getItem();  // Hent det aktuelle task-objekt
-                    if (item != null) {
-                        dbManager.deleteTask(item.getId());  // Slet i databasen
-                        getListView().getItems().remove(item);  // Fjern fra GUI
+                    Task task = getItem();
+                    if (task != null) {
+                        dbManager.deleteTask(task.getId());
+                        getListView().getItems().remove(task);
                     }
                 });
             }
@@ -104,24 +85,16 @@ public class TodoController {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    setText(item.getUsername() + ": " + item.getTask());  // Vis taskens navn og opgave
-                    setGraphic(container);  // Sæt knappen som grafisk indhold i cellen
+                    setText(item.getTask());
+                    setGraphic(box);
                 }
             }
         });
     }
-
 
     @FXML
     private void onCancel() {
         Stage stage = (Stage) taskField.getScene().getWindow();
         stage.close();
     }
-
-    private void showAlert(Alert.AlertType type, String msg) {
-        Alert a = new Alert(type, msg, ButtonType.OK);
-        a.showAndWait();
-    }
 }
-
-

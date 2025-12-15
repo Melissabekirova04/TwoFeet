@@ -75,7 +75,7 @@
          <font>
             <Font name="Calibri" size="16.0" />
          </font></PasswordField>
-        <Button fx:id="createUserButton" layoutX="32.0" layoutY="520.0" mnemonicParsing="false" onAction="#createUserButtonOnAction" prefHeight="60.0" prefWidth="336.0" style="-fx-background-color: #F49338;" text="Create User" textFill="WHITE">
+        <Button fx:id="createUserButton" layoutX="32.0" layoutY="520.0" mnemonicParsing="false" onAction="#registerOnAction" prefHeight="60.0" prefWidth="336.0" style="-fx-background-color: #F49338;" text="Create User" textFill="WHITE">
             <font>
                 <Font name="Calibri Bold" size="18.0" />
             </font>
