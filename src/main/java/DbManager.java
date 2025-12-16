@@ -115,7 +115,7 @@ public class DbManager {
     public void addTodo(int userId, String task) {
         if (connection == null) connect();
 
-        String sql = "INSERT INTO todolists (id, task) VALUES (?, ?)";
+        String sql = "INSERT INTO todolists (username, task) VALUES (?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, userId);
@@ -130,7 +130,7 @@ public class DbManager {
         if (connection == null) connect();
 
         List<Task> todos = new ArrayList<>();
-        String sql = "SELECT taskid, task FROM todolists WHERE user_id = ?";
+        String sql = "SELECT taskid, task FROM todolists WHERE username = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, userId);
