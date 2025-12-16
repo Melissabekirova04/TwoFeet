@@ -32,6 +32,7 @@ public class BudgetController {
     @FXML private Label daysLabel;
     @FXML private Label periodDatesLabel;
 
+
     DbManager dbManager = new DbManager();
 
     @FXML private Button backButton;
@@ -43,12 +44,49 @@ public class BudgetController {
         periodCombo.getItems().setAll("Uge", "Måned", "Sidst på måneden");
         periodCombo.getSelectionModel().selectFirst();
 
-        refreshExpensesList();
+        //refreshExpensesList();
         updatePeriodPreview();
+        dbManager.getLatestBudgetPlan(currentUserId);
 
         // Opdater periode preview når man vælger noget nyt
         periodCombo.setOnAction(e -> updatePeriodPreview());
     }
+
+    @FXML
+    private void showLatestBudget() {
+        BudgetPlan latest = dbManager.getLatestBudgetPlan(currentUserId);
+        if (latest == null) {
+            showAlert(Alert.AlertType.INFORMATION, "Ingen tidligere budgetplaner fundet.");
+            return;
+        }
+
+        // Opdater felter i UI
+        incomeField.setText(String.valueOf(latest.getIncome()));
+        savingsField.setText(String.valueOf(latest.getSavings()));
+
+        // Opdater liste af faste udgifter
+        draftExpenses.clear();
+        draftExpenses.addAll(dbManager.getFixedExpenses(latest.getId()));
+        refreshExpensesList();
+
+        // Opdater alle labels med en helper
+        updateBudgetLabels(latest);
+
+        showAlert(Alert.AlertType.INFORMATION, "Seneste budgetplan indlæst.");
+    }
+
+    private void updateBudgetLabels(BudgetPlan budget) {
+        double totalFixed = draftExpenses.stream().mapToDouble(FixedExpense::getAmount).sum();
+        double disposable = budget.getIncome() - budget.getSavings() - totalFixed;
+        double dailyBudget = budget.getDays() > 0 ? disposable / budget.getDays() : disposable;
+
+        totalFixedLabel.setText(formatKr(totalFixed));
+        disposableLabel.setText(formatKr(disposable));
+        dailyBudgetLabel.setText(formatKr(dailyBudget) + " pr. dag");
+        daysLabel.setText(budget.getDays() + " dage");
+        periodDatesLabel.setText(budget.getStartDate() + " → " + budget.getEndDate());
+    }
+
 
     @FXML
     private void addExpense(ActionEvent event) {
