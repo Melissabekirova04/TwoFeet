@@ -23,11 +23,11 @@
                 <DropShadow blurType="TWO_PASS_BOX" height="30.47" radius="17.1025" width="39.94" />
             </effect>
         </Label>
-        <Button fx:id="firstLoginButton" layoutX="85.0" layoutY="456.0" mnemonicParsing="false" onAction="#firstLoginButtonOnAction" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #F49338;" text="Login" textFill="WHITE">
+        <Button fx:id="firstLoginButton" layoutX="86.0" layoutY="578.0" mnemonicParsing="false" onAction="#firstLoginButtonOnAction" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #F49338;" text="Login" textFill="WHITE">
          <font>
             <Font name="Calibri Bold" size="18.0" />
          </font></Button>
-        <Label layoutX="67.0" layoutY="422.0" text="Already a User? Login here" textFill="WHITE">
+        <Label layoutX="68.0" layoutY="540.0" text="Already a User? Login here" textFill="WHITE">
             <font>
                 <Font name="Calibri" size="18.0" />
             </font>
@@ -36,20 +36,15 @@
          <font>
             <Font name="Calibri Bold" size="18.0" />
          </font></Button>
-        <Label layoutX="67.0" layoutY="269.0" text="New User? Register here" textFill="WHITE">
+        <Label layoutX="75.0" layoutY="294.0" text="New User? Register here" textFill="WHITE">
             <font>
                 <Font name="Calibri" size="18.0" />
             </font>
         </Label>
-        <Button fx:id="firstRegisterButton" layoutX="85.0" layoutY="299.0" mnemonicParsing="false" onAction="#firstRegisterButtonOnAction" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #F49338;" text="Register" textFill="WHITE">
+        <Button fx:id="firstRegisterButton" layoutX="85.0" layoutY="334.0" mnemonicParsing="false" onAction="#firstRegisterButtonOnAction" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #F49338;" text="Register" textFill="WHITE">
             <font>
                 <Font name="Calibri Bold" size="18.0" />
             </font>
         </Button>
-      <Button fx:id="skipToMainButton" layoutX="87.0" layoutY="616.0" mnemonicParsing="false" onAction="#skipToMainButtonOnAction" prefHeight="60.0" prefWidth="218.0" style="-fx-background-color: #F49338;" text="SKIP TO MAIN MENU" textFill="WHITE">
-         <font>
-            <Font name="Calibri Bold" size="18.0" />
-         </font>
-      </Button>
     </children>
 </AnchorPane>
