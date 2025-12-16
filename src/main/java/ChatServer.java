@@ -43,12 +43,16 @@ public class ChatServer {
             String message = new String(packet.getData(), 0, packet.getLength());
             System.out.println("Server recieved " + message);
 
+            //Til at initialisere brugere.
             if(message.contains("init;")){
                 users.add(packet.getPort());
-            }else{
-                int userPort = packet.getPort();
-                byte[] byteMessage = message.getBytes();
 
+
+            }else{
+                int userPort = packet.getPort(); //Modtage porten fra packeten
+                byte[] byteMessage = message.getBytes(); //Konverter Strengen til bytes igen
+
+                //Send bytes til alle andre brugere end afsenderen
                 for(int forward_port : users){
                     if(forward_port != userPort){
                         DatagramPacket forward = new DatagramPacket(byteMessage, byteMessage.length, address, forward_port);
