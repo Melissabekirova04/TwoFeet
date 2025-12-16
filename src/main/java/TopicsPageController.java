@@ -86,7 +86,7 @@ public class TopicsPageController {
         if (selected != null) {
             try {
                 // Load TopicDetailPage.fxml
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/TopicDetailPage.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/TopicsDetailPage.fxml"));
                 Scene scene = new Scene(loader.load(), 399, 844);
 
                 // Send topic og kategori videre
