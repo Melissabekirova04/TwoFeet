@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     DBConnector dbConnector = new DBConnector();
-    String url1 = "jdbc:sqlite:identifier.sqlite";
+    String url1 = "jdbc:sqlite:C:/intellij/TwoFeet/identifier.sqlite";
     Connection connection;
     private DbManager dbManager;
 
