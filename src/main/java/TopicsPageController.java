@@ -6,38 +6,52 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
-public class HelpPageController {
+public class TopicsPageController {
 
+    @FXML private Label categoryLabel;
+    @FXML private ListView<HelpTopic> topicsList;
     @FXML private Button backButton;
     @FXML private Button nextButton;
-    @FXML private ListView<HelpCategory> categoryList;
+
+    private HelpService helpService = new HelpService();
+    private HelpCategory currentCategory;
 
     @FXML
     public void initialize() {
-        // Fyld listen med kategorier
-        categoryList.getItems().setAll(HelpCategory.values());
-
-        // Vis pæne navne i stedet for LAUNDRY, ELECTRONICS osv.
-        categoryList.setCellFactory(lv -> new ListCell<>() {
+        // Vis topic titler i listen
+        topicsList.setCellFactory(lv -> new ListCell<>() {
             @Override
-            protected void updateItem(HelpCategory item, boolean empty) {
+            protected void updateItem(HelpTopic item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty || item == null ? null : prettyName(item));
+                setText(empty || item == null ? null : item.getTitle());
             }
         });
 
         // Deaktiver "Frem" knappen indtil noget er valgt
-        categoryList.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> {
+        topicsList.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> {
             nextButton.setDisable(newV == null);
         });
 
         nextButton.setDisable(true);
+    }
+
+    public void setCategory(HelpCategory category) {
+        this.currentCategory = category;
+
+        // Opdater label
+        categoryLabel.setText("Kategori: " + prettyName(category));
+
+        // Hent og vis topics
+        List<HelpTopic> topics = helpService.getTopicsByCategory(category);
+        topicsList.getItems().setAll(topics);
     }
 
     private String prettyName(HelpCategory c) {
@@ -53,8 +67,8 @@ public class HelpPageController {
     @FXML
     private void backButtonOnAction(ActionEvent event) {
         try {
-            // Gå tilbage til hovedmenuen
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainpage.fxml"));
+            // Gå tilbage til kategori-siden
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/help_page.fxml"));
             Scene scene = new Scene(loader.load(), 399, 844);
 
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -67,25 +81,24 @@ public class HelpPageController {
 
     @FXML
     private void nextButtonOnAction(ActionEvent event) {
-        HelpCategory selected = categoryList.getSelectionModel().getSelectedItem();
+        HelpTopic selected = topicsList.getSelectionModel().getSelectedItem();
 
         if (selected != null) {
             try {
-                // Load TopicsPage.fxml
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/TopicsPage.fxml"));
+                // Load TopicDetailPage.fxml
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/TopicsDetailPage.fxml"));
                 Scene scene = new Scene(loader.load(), 399, 844);
 
-                // Send den valgte kategori videre
-                TopicsPageController controller = loader.getController();
-                controller.setCategory(selected);
+                // Send topic og kategori videre
+                TopicDetailController controller = loader.getController();
+                controller.setTopic(selected);
+                controller.setCategory(currentCategory);
 
-                // Skift scene
                 Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentStage.setScene(scene);
 
             } catch (IOException e) {
                 e.printStackTrace();
-                System.err.println("Kunne ikke loade TopicsPage.fxml");
             }
         }
     }

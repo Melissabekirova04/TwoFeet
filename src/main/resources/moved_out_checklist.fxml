@@ -5,48 +5,57 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="main.java.MovedOutChecklistController"
-            prefWidth="520" prefHeight="600">
+<BorderPane prefHeight="844.0" prefWidth="399.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.MovedOutChecklistController">
 
     <top>
-        <VBox spacing="8" alignment="CENTER_LEFT">
+        <VBox alignment="CENTER_LEFT" spacing="8" style="-fx-background-color: #02213A;">
             <padding>
-                <Insets top="15" right="15" bottom="10" left="15"/>
+                <Insets bottom="10" left="15" right="15" top="15" />
             </padding>
 
-            <Label text="Moving Essentials"
-                   style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+            <Label prefHeight="35.0" prefWidth="257.0" text="Moving Essentials" textFill="WHITE">
+            <font>
+               <Font name="Calibri Bold" size="30.0" />
+            </font></Label>
 
-            <Label text="Choose what you need:"
-                   style="-fx-font-size: 13px; -fx-opacity: 0.85;"/>
+            <Label text="Choose what you need:" textFill="#f49338">
+            <font>
+               <Font name="Calibri Bold Italic" size="18.0" />
+            </font></Label>
         </VBox>
     </top>
 
     <center>
-        <VBox spacing="15" alignment="CENTER">
+        <VBox alignment="CENTER" spacing="15">
             <padding>
-                <Insets top="30" right="20" bottom="20" left="20"/>
+                <Insets bottom="20" left="20" right="20" top="30" />
             </padding>
 
-            <Button text="Before moving out"
-                    prefWidth="240"
-                    onAction="#onBeforeMovingOut"/>
+               <Button onAction="#onBeforeMovingOut" prefHeight="41.0" prefWidth="240" text="Before moving out">
+            <font>
+               <Font name="Calibri" size="14.0" />
+            </font>
+         </Button>
 
-            <Button text="Starter pack"
-                    prefWidth="240"
-                    onAction="#onStarterPack"/>
+               <Button onAction="#onStarterPack" prefHeight="42.0" prefWidth="240" text="Starter pack">
+            <font>
+               <Font name="Calibri" size="14.0" />
+            </font>
+         </Button>
         </VBox>
     </center>
 
     <bottom>
-        <VBox alignment="CENTER_RIGHT">
+        <VBox alignment="CENTER_RIGHT" style="-fx-background-color: #02213A;">
             <padding>
-                <Insets top="15" right="15" bottom="15" left="15"/>
+                <Insets bottom="15" left="15" right="15" top="15" />
             </padding>
-            <Button text="Back to Main Menu" onAction="#onBackToMain"/>
+            <Button alignment="CENTER" onAction="#onBackToMain" text="Back to Main Menu">
+            <font>
+               <Font name="Calibri Bold" size="18.0" />
+            </font></Button>
         </VBox>
     </bottom>
 

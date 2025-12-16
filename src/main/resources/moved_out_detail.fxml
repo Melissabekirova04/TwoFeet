@@ -6,20 +6,19 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="main.java.MovedOutDetailController"
-            prefWidth="520" prefHeight="600">
+<BorderPane prefHeight="844.0" prefWidth="399.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.MovedOutDetailController">
 
     <top>
-        <VBox spacing="8">
+        <VBox prefHeight="69.0" prefWidth="399.0" spacing="8" style="-fx-background-color: #02213A;">
             <padding>
-                <Insets top="15" right="15" bottom="10" left="15"/>
+                <Insets bottom="10" left="15" right="15" top="15" />
             </padding>
-            <Label fx:id="titleLabel"
-                   text="Title"
-                   style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <Label fx:id="titleLabel" text="Title" textFill="WHITE">
+            <font>
+               <Font name="Calibri Bold" size="24.0" />
+            </font></Label>
         </VBox>
     </top>
 
@@ -27,22 +26,22 @@
         <VBox spacing="10">
             <padding>
                 <!-- replaced value="15" with explicit edges -->
-                <Insets top="15" right="15" bottom="15" left="15"/>
+                <Insets bottom="15" left="15" right="15" top="15" />
             </padding>
-            <TextArea fx:id="contentArea"
-                      wrapText="true"
-                      editable="false"
-                      prefHeight="480"/>
+            <TextArea fx:id="contentArea" editable="false" prefHeight="700.0" prefWidth="369.0" wrapText="true" />
         </VBox>
     </center>
 
     <bottom>
-        <VBox alignment="CENTER_RIGHT">
+        <VBox alignment="CENTER_RIGHT" prefHeight="83.0" prefWidth="399.0" style="-fx-background-color: #02213A;">
             <padding>
                 <!-- replaced value="15" with explicit edges -->
-                <Insets top="15" right="15" bottom="15" left="15"/>
+                <Insets bottom="15" left="15" right="15" top="15" />
             </padding>
-            <Button text="← Back" onAction="#onBack"/>
+            <Button onAction="#onBack" text="← Back">
+            <font>
+               <Font name="Calibri Bold" size="18.0" />
+            </font></Button>
         </VBox>
     </bottom>
 

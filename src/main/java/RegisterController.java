@@ -45,9 +45,9 @@ public class RegisterController implements Initializable {
     @FXML
     private Label registerCheckLabel;
     @FXML
-    private Label registerCheckLabel1;
-    @FXML
     private Button registerCloseButton;
+    @FXML
+    private Label userMadeLabel;
 
     private UserChecker userChecker = new UserChecker();
     private DbManager dbManager = new DbManager();
@@ -71,8 +71,6 @@ public class RegisterController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        System.out.println("Working directory: " + System.getProperty("user.dir"));
-
         File shieldFile = new File("C:\\Users\\morte\\IdeaProjects\\TwoFeet\\src\\main\\resources\\Shield.png");
         Image shieldImage = new Image(shieldFile.toURI().toString());
         shieldImageView.setImage(shieldImage);
@@ -197,7 +195,7 @@ public class RegisterController implements Initializable {
         } else {
             User user = new User(firstname, lastname, username, password);
             TwoFeetApp.addUser(user);
-            registerCheckLabel.setText("User made!");
+            userMadeLabel.setText("User made!");
 
             //Duration fundet fra AI, da Thread.sleep ikke opdatere billedet.
             PauseTransition pause = new PauseTransition(Duration.seconds(1));

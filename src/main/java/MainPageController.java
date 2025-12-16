@@ -39,10 +39,10 @@ public class MainPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setImageSafe(logoImageView, "/Logo1.png");
-        setImageSafe(checklistImageView, "/Checklist.png");
-        setImageSafe(budgetImageView, "/Budget.png");
-        setImageSafe(todoImageView, "/ShoppingList.png");
-        setImageSafe(helpServiceImageView, "/Guide.png");
+        setImageSafe(checklistImageView, "/MovedOut.png");
+        setImageSafe(budgetImageView, "/budget2.png");
+        setImageSafe(todoImageView, "/Todo2.png");
+        setImageSafe(helpServiceImageView, "/Guide2.png");
 
         // billeder må ikke blokere klik
         if (logoImageView != null) logoImageView.setMouseTransparent(true);
@@ -78,7 +78,7 @@ public class MainPageController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/moved_out_checklist.fxml"));
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.setScene(new Scene(loader.load(), 520, 600));
+            stage.setScene(new Scene(loader.load(), 399, 844));
             stage.show();
 
             // luk main page
@@ -117,7 +117,7 @@ public class MainPageController implements Initializable {
 
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.setScene(new Scene(loader.load(), 520, 600));
+            stage.setScene(new Scene(loader.load(), 399, 844));
             stage.show();
 
             Stage current = (Stage) helpServiceButton.getScene().getWindow();

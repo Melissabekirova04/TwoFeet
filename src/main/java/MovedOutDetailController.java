@@ -24,7 +24,7 @@ public class MovedOutDetailController {
 
     @FXML
     private void onBack(ActionEvent event) {
-        openWindow("/moved_out_checklist.fxml", 520, 600);
+        openWindow("/moved_out_checklist.fxml", 399, 844);
         closeCurrent(event);
     }
 

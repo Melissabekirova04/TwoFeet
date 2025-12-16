@@ -22,7 +22,6 @@ public class Main extends Application {
         frontStage.setScene(scene);
         frontStage.show();
 
-
     }
 }
 
