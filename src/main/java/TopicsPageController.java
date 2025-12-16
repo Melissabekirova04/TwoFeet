@@ -58,8 +58,6 @@ public class TopicsPageController {
         return switch (c) {
             case LAUNDRY -> "Tøjvask";
             case ELECTRONICS -> "Elektronik (køl/frys)";
-            case MOVE_IN -> "Inden indflytning";
-            case STARTERPACK -> "Starterpack";
             case CLEANING -> "Rengøring";
         };
     }
