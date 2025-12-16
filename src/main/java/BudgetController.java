@@ -14,6 +14,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+import static main.java.LoginController.currentUserId;
+
 public class BudgetController {
 
     @FXML private ComboBox<String> periodCombo;
@@ -29,6 +31,8 @@ public class BudgetController {
     @FXML private Label dailyBudgetLabel;
     @FXML private Label daysLabel;
     @FXML private Label periodDatesLabel;
+
+    DbManager dbManager = new DbManager();
 
     @FXML private Button backButton;
 
@@ -69,13 +73,33 @@ public class BudgetController {
             return;
         }
 
+        // Tilføj udgift til listen
         draftExpenses.add(new FixedExpense(name, amount));
         expenseNameField.clear();
         expenseAmountField.clear();
 
+        // Beregn ny balance
+        double totalFixed = draftExpenses.stream()
+                .mapToDouble(FixedExpense::getAmount)
+                .sum();
+
+        double income = parseNonNegative(incomeField.getText(), "Budget/indtægt");
+        double savings = parseNonNegative(savingsField.getText(), "Opsparing");
+        if (income < 0 || savings < 0) return;
+
+        double balanceAfter = income - savings - totalFixed;
+
+        dbManager.insertBudgetEntry(
+                currentUserId,
+                amount,
+                balanceAfter,
+                "FIXED_EXPENSE"
+        );
+
         refreshExpensesList();
         updateTotalsOnly();
     }
+
 
     @FXML
     private void removeSelectedExpense(ActionEvent event) {
