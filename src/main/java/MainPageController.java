@@ -35,6 +35,7 @@ public class MainPageController implements Initializable {
     @FXML private Button todoButton;
     @FXML private Button helpServiceButton;
     @FXML private Button mainCloseButton;
+    @FXML private Button chatbutton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -147,6 +148,20 @@ public class MainPageController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void chatButtonOnAction(ActionEvent event){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chat.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        }
 
     public void mainCloseButtonOnAction(){
         Stage stage = (Stage) mainCloseButton.getScene().getWindow();

@@ -61,7 +61,7 @@
                         <Image url="@Chat.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="movingOutChecklistButton1" layoutX="125.0" layoutY="499.0" mnemonicParsing="false" onAction="#movingOutChecklistButtonOnAction" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #FD841E;" text="Moving Friends">
+                  <Button fx:id="chatButton" layoutX="125.0" layoutY="499.0" mnemonicParsing="false" onAction="#chatButtonOnAction" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #FD841E;" text="Moving Friends">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
