@@ -39,10 +39,10 @@ public class MainPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setImageSafe(logoImageView, "/Logo1.png");
-        setImageSafe(checklistImageView, "/Checklist.png");
-        setImageSafe(budgetImageView, "/Budget.png");
-        setImageSafe(todoImageView, "/ShoppingList.png");
-        setImageSafe(helpServiceImageView, "/Guide.png");
+        setImageSafe(checklistImageView, "/MovedOut.png");
+        setImageSafe(budgetImageView, "/budget2.png");
+        setImageSafe(todoImageView, "/Todo2.png");
+        setImageSafe(helpServiceImageView, "/Guide2.png");
 
         // billeder må ikke blokere klik
         if (logoImageView != null) logoImageView.setMouseTransparent(true);
