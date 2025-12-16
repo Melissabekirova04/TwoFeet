@@ -20,10 +20,9 @@ public class HelpPageController {
 
     @FXML
     public void initialize() {
-        // Fyld listen med kategorier
+
         categoryList.getItems().setAll(HelpCategory.values());
 
-        // Vis pæne navne i stedet for LAUNDRY, ELECTRONICS osv.
         categoryList.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(HelpCategory item, boolean empty) {
@@ -32,12 +31,17 @@ public class HelpPageController {
             }
         });
 
-        // Deaktiver "Frem" knappen indtil noget er valgt
-        categoryList.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> {
-            nextButton.setDisable(newV == null);
-        });
+        // ✅ gør listen kun så høj som indholdet
+        categoryList.setFixedCellSize(44);
+        categoryList.setPrefHeight(
+                categoryList.getItems().size() * categoryList.getFixedCellSize() + 2
+        );
 
+        // Deaktiver "Frem" indtil noget er valgt
         nextButton.setDisable(true);
+        categoryList.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) ->
+                nextButton.setDisable(newV == null)
+        );
     }
 
     private String prettyName(HelpCategory c) {
@@ -53,7 +57,6 @@ public class HelpPageController {
     @FXML
     private void backButtonOnAction(ActionEvent event) {
         try {
-            // Gå tilbage til hovedmenuen
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainpage.fxml"));
             Scene scene = new Scene(loader.load(), 399, 844);
 
@@ -71,15 +74,12 @@ public class HelpPageController {
 
         if (selected != null) {
             try {
-                // Load TopicsPage.fxml
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/TopicsPage.fxml"));
                 Scene scene = new Scene(loader.load(), 399, 844);
 
-                // Send den valgte kategori videre
                 TopicsPageController controller = loader.getController();
                 controller.setCategory(selected);
 
-                // Skift scene
                 Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentStage.setScene(scene);
 
