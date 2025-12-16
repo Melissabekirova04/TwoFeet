@@ -115,7 +115,7 @@ public class DbManager {
     public void addTodo(int userId, String task) {
         if (connection == null) connect();
 
-        String sql = "INSERT INTO todolists (user_id, task) VALUES (?, ?)";
+        String sql = "INSERT INTO todolists (username, task) VALUES (?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, userId);
@@ -130,7 +130,7 @@ public class DbManager {
         if (connection == null) connect();
 
         List<Task> todos = new ArrayList<>();
-        String sql = "SELECT taskid, task FROM todolists WHERE user_id = ?";
+        String sql = "SELECT taskid, task FROM todolists WHERE username = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, userId);
@@ -190,21 +190,27 @@ public class DbManager {
         return entries;
     }
 
-    public void insertBudgetEntry(int userId, double amount, double balanceAfter) {
+    public void insertBudgetEntry(int userId, double amount, double balanceAfter, String type) {
         if (connection == null) connect();
 
-        String sql = "INSERT INTO budget (id, amount, balance_after) VALUES ( ?, ?, ?)";
+        String sql = """
+        INSERT INTO budget (user_id, amount, balance_after, type)
+        VALUES (?, ?, ?, ?)
+    """;
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, userId);
             stmt.setDouble(2, amount);
             stmt.setDouble(3, balanceAfter);
+            stmt.setString(4, type); // fx "FIXED_EXPENSE"
+
             stmt.executeUpdate();
             System.out.println("Budget entry saved.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     // ---------- NEW: BUDGET PLAN + FIXED EXPENSES ----------
     public int insertBudgetPlan(int userId, String periodType, double income, double savings,
