@@ -13,7 +13,7 @@
     <TextField fx:id="taskField" promptText="Enter task"/>
     <TextField fx:id="usernameField" promptText="Enter username"/>
 
-    <Button text="Add Task" onAction="#onAdd"/>
+    <Button text="Add Task" onAction="#startTodo"/>
 
     <Button text="Add Task" onAction="#addTodoOnAction"/>
     <ListView fx:id="taskListView" prefHeight="250"/>
