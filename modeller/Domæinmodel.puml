@@ -1,24 +1,68 @@
 @startuml
-!pragma layout smetana
 
-class User
-class Budget
-class BudgetCategory
-class Transaction
-class TodoList
-class TodoItem
-class HelpQuestion
-class HelpAnswer
+class User {
+  id
+  username
+  email
+}
 
-' Relationer
-User "1" -- "1" Budget
-Budget "1" o-- "*" BudgetCategory
-BudgetCategory "1" o-- "*" Transaction
+class Budget {
+  amount
+  balanceAfter
+  type
+  timestamp
+}
 
-User "1" o-- "*" TodoList
-TodoList "1" o-- "*" TodoItem
+class BudgetPlan {
+  periodType
+  income
+  savings
+  totalFixed
+  days
+  dailyBudget
+}
 
-User "1" o-- "*" HelpQuestion
-HelpQuestion "0..1" --> HelpAnswer
+class FixedExpense {
+  name
+  amount
+}
+
+class Task {
+  taskId
+  task
+}
+
+class HelpTopic {
+  title
+  content
+}
+
+class HelpCategory {
+  name
+}
+
+' =====================
+' Services
+' =====================
+class HelpService
+
+HelpService --> HelpTopic
+HelpService --> HelpCategory
+HelpPageController --> HelpService
+
+' =====================
+' Relationships
+' =====================
+User "1" --> "many" Budget
+User "1" --> "many" Task
+User "1" --> "many" BudgetPlan
+
+BudgetPlan "1" --> "many" FixedExpense
+HelpCategory "1" --> "many" HelpTopic
+
+BudgetController --> DbManager
+TodoController --> DbManager
+LoginController --> DbManager
+RegisterController --> DbManager
 
 @enduml
