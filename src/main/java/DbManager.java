@@ -3,6 +3,7 @@ package main.java;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class DbManager {
 
@@ -12,7 +13,7 @@ public class DbManager {
 
     public void connect() {
         try {
-            String url = "jdbc:sqlite:/Users/melissabekirova/Documents/GitHub/TwoFeet/identifier.sqlite";
+            String url = "jdbc:sqlite:C:/intellij/TwoFeet/identifier.sqlite";
             connection = DriverManager.getConnection(url);
             ensureTables();
             System.out.println("Connected to SQLite");
@@ -79,14 +80,23 @@ public class DbManager {
     public int loginUser(String username, String passwordHash) {
         if (connection == null) connect();
 
-        String sql = "SELECT id FROM users WHERE username = ? AND password_hash = ?";
+        String sql = "SELECT id, username FROM users WHERE username = ? AND password_hash = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, username);
             stmt.setString(2, passwordHash);
 
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) return rs.getInt("id");
+            if (rs.next())  {
+
+                    int userId = rs.getInt("id");
+                    if (userId > 0)  Session.setUserId(userId);
+
+                    String foundUsername = rs.getString("username");
+                    if (!Objects.equals(foundUsername, "")) Session.setUsername(foundUsername);
+
+                    return Session.getUserId();
+            };
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,26 +106,28 @@ public class DbManager {
 
     /* ===================== REGISTER ===================== */
 
-    public int registerUser(String username, String email, String passwordHash) {
-        if (connection == null) connect();
+    public int registerUser(String username, String passwordHash) {
 
-        String sql = "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)";
+        if (connection == null) {connect();}
 
-        try (PreparedStatement stmt =
-                     connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
+        String query = "INSERT INTO users (username, password_hash, created_at) VALUES (?, ?, CURRENT_TIMESTAMP)";
+        try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, username);
-            stmt.setString(2, email);
-            stmt.setString(3, passwordHash);
-            stmt.executeUpdate();
+            stmt.setString(2, passwordHash);
 
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) return rs.getInt(1);
-
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows > 0) {
+                // Get the auto-generated user ID
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1);  // Return the generated user ID
+                    }
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1;
+        return -1;  // Return -1 if registration failed
     }
 
     /* ===================== TODO ===================== */

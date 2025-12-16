@@ -86,7 +86,6 @@ public class RegisterController implements Initializable {
 
 
 
-    @FXML
     public void registerOnAction() {
         String username = usernameTextField.getText();
         String password = setPasswordField.getText();
@@ -95,56 +94,49 @@ public class RegisterController implements Initializable {
         String lastname = lastnameTextField.getText();
         boolean isResitrationCorrect = true;
 
-       if (!userChecker.isFilledOut(firstname, lastname, username, password, confirmPassword)) {
+        if (!userChecker.isFilledOut(firstname, lastname, username, password, confirmPassword)) {
             registerCheckLabel.setText("Please fill in all your information");
-           isResitrationCorrect = false;
-        }//Checker for at username og password er langt nok
-       else if(userChecker.checkLength(username, 5, 12) == false) {
-           registerCheckLabel.setText("Username must be between 5 and 12 characters");
-           isResitrationCorrect = false;
-       }else if(userChecker.checkLength(password, 8, 18) == false){
-           registerCheckLabel.setText("Password must between 8 and 18 characters");
-           isResitrationCorrect = false;
-       }//Checker om der bliver opfyldt kriterier, regex fundet på: https://www.youtube.com/watch?v=rwp1irWJtTc
-       //Skal indholde minumum et lille bogstav
-       else if(userChecker.checkForSmallLetters(password) == false ) {
-           registerCheckLabel.setText("Password must contain at least 1 small letter");
-           isResitrationCorrect = false;
-           //Skal indholde minumum et stort bogstav
-       }else if(userChecker.checkForCapitalLetters(password) == false) {
-           registerCheckLabel.setText("Password must contain at least 1 capital letter");
-           isResitrationCorrect = false;
-           //Skal indholde minimum 1 tal
-       }else if(userChecker.checkForNumbers(password) == false){
-           registerCheckLabel.setText("Password must contain at least 1 number");
-           isResitrationCorrect = false;
-           //Er de to passwords ens
-       } else if (!password.equals(confirmPassword)) {
-           registerCheckLabel.setText("The passwords doesn't match");
-           isResitrationCorrect = false;
-       }
-
-        if (!password.equals(confirmPassword)) {
+            isResitrationCorrect = false;
+        } else if (!userChecker.checkLength(username, 5, 12)) {
+            registerCheckLabel.setText("Username must be between 5 and 12 characters");
+            isResitrationCorrect = false;
+        } else if (!userChecker.checkLength(password, 8, 18)) {
+            registerCheckLabel.setText("Password must between 8 and 18 characters");
+            isResitrationCorrect = false;
+        } else if (!userChecker.checkForSmallLetters(password)) {
+            registerCheckLabel.setText("Password must contain at least 1 small letter");
+            isResitrationCorrect = false;
+        } else if (!userChecker.checkForCapitalLetters(password)) {
+            registerCheckLabel.setText("Password must contain at least 1 capital letter");
+            isResitrationCorrect = false;
+        } else if (!userChecker.checkForNumbers(password)) {
+            registerCheckLabel.setText("Password must contain at least 1 number");
+            isResitrationCorrect = false;
+        } else if (!password.equals(confirmPassword)) {
             registerCheckLabel.setText("Passwords do not match");
+            isResitrationCorrect = false;
         }
 
-        if (!isResitrationCorrect)
+        if (!isResitrationCorrect) {
             return;
+        }
 
-        String passwordHash = hashPassword(password);
+        String passwordHash = password;//hashPassword(password);
 
-        int userId = dbManager.registerUser(
-                username,
-                username + "@example.com",
-                passwordHash
-        );
+        int userId = dbManager.registerUser(username, passwordHash);
 
         if (userId != -1) {
             registerCheckLabel.setText("User created successfully!");
+
+            LoginController LoginController = new LoginController();
+            LoginController.start();
+            Stage stage = (Stage) goToLoginButton.getScene().getWindow();
+            stage.close();
         } else {
             registerCheckLabel.setText("Username already exists");
         }
     }
+
 
     private String hashPassword(String password) {
         return Integer.toHexString(password.hashCode());

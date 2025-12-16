@@ -2,6 +2,8 @@ package main.java;
 
 public class Session {
     private static int userId = -1;
+    private static String username = "";
+
 
     public static int getUserId() {
         return userId;
@@ -9,6 +11,9 @@ public class Session {
 
     public static void setUserId(int id) {
         userId = id;
+    }
+    public static void setUsername(String currUsername) {
+        username = currUsername;
     }
 
     public static boolean isLoggedIn() {

@@ -37,7 +37,7 @@
                <font>
                   <Font name="Calibri" size="16.0" />
                </font></PasswordField>
-                <Button fx:id="loginButton" layoutX="70.0" layoutY="517.0" mnemonicParsing="false" onAction="#LoginOnAction" prefHeight="32.0" prefWidth="250.0" style="-fx-background-color: #F49338;" text="Login" textFill="WHITE">
+                <Button fx:id="loginButton" layoutX="70.0" layoutY="517.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="32.0" prefWidth="250.0" style="-fx-background-color: #F49338;" text="Login" textFill="WHITE">
                     <font>
                         <Font name="Calibri" size="18.0" />
                     </font>

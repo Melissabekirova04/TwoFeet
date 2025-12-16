@@ -80,11 +80,6 @@ public class LoginController implements Initializable {
         }
     }
 
-    // (Du kan faktisk slette denne, men jeg lader den stå)
-    @FXML
-    public void LoginOnAction() {
-        openMainPageInSameWindow();
-    }
 
     public void loginButtonOnAction(ActionEvent event) {
         if (!usernameTextField.getText().isBlank() && !passwordTextField.getText().isBlank()) {
@@ -115,15 +110,12 @@ public class LoginController implements Initializable {
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
 
-        String passwordHash = hashPassword(password);
+        String passwordHash = password;//hashPassword(password);
 
         int userId = dbManager.loginUser(username, passwordHash);
 
         if (userId != -1) {
-            // ✅ Sæt session (det vigtigste!)
             Session.setUserId(userId);
-
-            // (valgfrit) behold også din gamle variabel, så gammel kode ikke knækker
             currentUserId = userId;
 
             loginMessageLabel.setText("Success!");
@@ -132,6 +124,7 @@ public class LoginController implements Initializable {
             loginMessageLabel.setText("Wrong Username or Password");
         }
     }
+
 
     private void openMainPageInSameWindow() {
         try {
