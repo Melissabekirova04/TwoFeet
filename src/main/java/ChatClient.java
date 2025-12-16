@@ -32,7 +32,7 @@ public class ChatClient extends Application {
         }
     }
 
-    private static final String identifier = "Fader";
+    private static final String identifier = "Morten";
     private static final int SERVER_PORT = 8000;
 
     @FXML private TextArea messageArea;
