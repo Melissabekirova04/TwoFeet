@@ -91,14 +91,45 @@ public class RegisterController implements Initializable {
         String username = usernameTextField.getText();
         String password = setPasswordField.getText();
         String confirmPassword = confirmPasswordField.getText();
+        String firstname = firstnameTextField.getText();
+        String lastname = lastnameTextField.getText();
+        boolean isResitrationCorrect = true;
 
-        if (username == null || username.isBlank()) return;
-        if (password == null || password.isBlank()) return;
+       if (!userChecker.isFilledOut(firstname, lastname, username, password, confirmPassword)) {
+            registerCheckLabel.setText("Please fill in all your information");
+           isResitrationCorrect = false;
+        }//Checker for at username og password er langt nok
+       else if(userChecker.checkLength(username, 5, 12) == false) {
+           registerCheckLabel.setText("Username must be between 5 and 12 characters");
+           isResitrationCorrect = false;
+       }else if(userChecker.checkLength(password, 8, 18) == false){
+           registerCheckLabel.setText("Password must between 8 and 18 characters");
+           isResitrationCorrect = false;
+       }//Checker om der bliver opfyldt kriterier, regex fundet på: https://www.youtube.com/watch?v=rwp1irWJtTc
+       //Skal indholde minumum et lille bogstav
+       else if(userChecker.checkForSmallLetters(password) == false ) {
+           registerCheckLabel.setText("Password must contain at least 1 small letter");
+           isResitrationCorrect = false;
+           //Skal indholde minumum et stort bogstav
+       }else if(userChecker.checkForCapitalLetters(password) == false) {
+           registerCheckLabel.setText("Password must contain at least 1 capital letter");
+           isResitrationCorrect = false;
+           //Skal indholde minimum 1 tal
+       }else if(userChecker.checkForNumbers(password) == false){
+           registerCheckLabel.setText("Password must contain at least 1 number");
+           isResitrationCorrect = false;
+           //Er de to passwords ens
+       } else if (!password.equals(confirmPassword)) {
+           registerCheckLabel.setText("The passwords doesn't match");
+           isResitrationCorrect = false;
+       }
 
         if (!password.equals(confirmPassword)) {
             registerCheckLabel.setText("Passwords do not match");
-            return;
         }
+
+        if (!isResitrationCorrect)
+            return;
 
         String passwordHash = hashPassword(password);
 
@@ -117,6 +148,11 @@ public class RegisterController implements Initializable {
 
     private String hashPassword(String password) {
         return Integer.toHexString(password.hashCode());
+    }
+
+    public void registerCloseButtonOnAction(){
+        Stage stage = (Stage) registerCloseButton.getScene().getWindow();
+        CloseProgram.close(stage);
     }
 
     /*public void createUserButtonOnAction() {
