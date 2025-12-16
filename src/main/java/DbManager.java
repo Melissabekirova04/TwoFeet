@@ -193,7 +193,7 @@ public class DbManager {
     public void insertBudgetEntry(int userId, double amount, double balanceAfter) {
         if (connection == null) connect();
 
-        String sql = "INSERT INTO budget (user_id, amount, balance_after) VALUES ( ?, ?, ?)";
+        String sql = "INSERT INTO budget (id, amount, balance_after) VALUES ( ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, userId);
