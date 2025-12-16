@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="main.java.BudgetHistoryController">
+
+    <children>
+        <VBox spacing="12"
+              AnchorPane.topAnchor="20"
+              AnchorPane.leftAnchor="20"
+              AnchorPane.rightAnchor="20"
+              AnchorPane.bottomAnchor="20">
+
+            <Label text="Mine gemte budgetter"
+                   style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+
+            <TableView fx:id="budgetTable">
+
+                <columns>
+                    <TableColumn text="Periode" fx:id="periodColumn" prefWidth="120"/>
+                    <TableColumn text="Daglig budget" fx:id="dailyColumn" prefWidth="120"/>
+                    <TableColumn text="Oprettet" fx:id="createdColumn" prefWidth="140"/>
+                </columns>
+
+            </TableView>
+
+            <Button text="Luk"
+                    onAction="#closeWindow"
+                    prefWidth="100"/>
+        </VBox>
+    </children>
+</AnchorPane>
