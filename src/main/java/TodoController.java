@@ -30,7 +30,7 @@ public class TodoController implements Initializable {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("/todo.fxml"));
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.setScene(new Scene(loader.load(), 520, 523));
+            stage.setScene(new Scene(loader.load(), 399, 844));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
