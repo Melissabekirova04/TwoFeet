@@ -11,9 +11,6 @@
       prefHeight="400">
 
     <TextField fx:id="taskField" promptText="Enter task"/>
-    <TextField fx:id="usernameField" promptText="Enter username"/>
-
-
 
     <Button text="Add Task" onAction="#addTodoOnAction"/>
     <ListView fx:id="taskListView" prefHeight="250"/>
