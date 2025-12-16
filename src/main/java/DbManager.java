@@ -12,7 +12,7 @@ public class DbManager {
 
     public void connect() {
         try {
-            String url = "jdbc:sqlite:C:/intellij/TwoFeet/identifier.sqlite";
+            String url = "jdbc:sqlite:/Users/melissabekirova/Documents/GitHub/TwoFeet/identifier.sqlite";
             connection = DriverManager.getConnection(url);
             ensureTables();
             System.out.println("Connected to SQLite");

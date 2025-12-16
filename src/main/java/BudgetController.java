@@ -10,13 +10,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BudgetController {
-
-    /* ===================== FXML ===================== */
 
     @FXML private ComboBox<String> periodCombo;
     @FXML private Label periodDatesLabel;
@@ -33,42 +30,43 @@ public class BudgetController {
     @FXML private Label disposableLabel;
     @FXML private Label dailyBudgetLabel;
 
-    /* ===================== DATA ===================== */
-
+    private final DbManager dbManager = new DbManager();
     private final List<FixedExpense> draftExpenses = new ArrayList<>();
 
-    /* ===================== INIT ===================== */
+    // Gemte værdier efter beregning
+    private double calculatedDailyBudget;
+    private double totalFixed;
+    private int days;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     @FXML
     public void initialize() {
-        periodCombo.getItems().addAll("Uge", "Måned", "Sidst på måneden");
+        dbManager.connect();
+
+        periodCombo.getItems().addAll("Uge", "Måned");
         periodCombo.getSelectionModel().select("Måned");
         updatePeriod();
         periodCombo.setOnAction(e -> updatePeriod());
     }
 
-    /* ===================== PERIODE ===================== */
-
     private void updatePeriod() {
-        LocalDate start = LocalDate.now();
-        LocalDate end;
+        startDate = LocalDate.now();
 
-        switch (periodCombo.getValue()) {
-            case "Uge" -> end = start.plusDays(6);
-            case "Sidst på måneden" -> end = start.withDayOfMonth(start.lengthOfMonth());
-            default -> end = start.plusMonths(1).minusDays(1);
+        if (periodCombo.getValue().equals("Uge")) {
+            endDate = startDate.plusDays(6);
+            days = 7;
+        } else {
+            endDate = startDate.plusMonths(1).minusDays(1);
+            days = endDate.getDayOfMonth();
         }
 
-        long days = ChronoUnit.DAYS.between(start, end) + 1;
-
-        periodDatesLabel.setText(start + " → " + end);
+        periodDatesLabel.setText(startDate + " → " + endDate);
         daysLabel.setText(String.valueOf(days));
     }
 
-    /* ===================== FASTE UDGIFTER ===================== */
-
     @FXML
-    private void addExpense(ActionEvent event) {
+    private void addExpense() {
         try {
             String name = expenseNameField.getText();
             double amount = Double.parseDouble(expenseAmountField.getText());
@@ -83,12 +81,11 @@ public class BudgetController {
             expenseAmountField.clear();
 
             updateTotalsOnly();
-
         } catch (NumberFormatException ignored) {}
     }
 
     @FXML
-    private void removeSelectedExpense(ActionEvent event) {
+    private void removeSelectedExpense() {
         FixedExpense selected = expensesList.getSelectionModel().getSelectedItem();
         if (selected != null) {
             draftExpenses.remove(selected);
@@ -97,68 +94,91 @@ public class BudgetController {
         }
     }
 
-    /* ===================== BEREGNING ===================== */
+    private void updateTotalsOnly() {
+        totalFixed = draftExpenses.stream().mapToDouble(FixedExpense::getAmount).sum();
+        totalFixedLabel.setText(String.format("%.2f kr", totalFixed));
+    }
 
     @FXML
-    private void calculateBudget(ActionEvent event) {
+    private void calculateBudget() {
         try {
             double income = Double.parseDouble(incomeField.getText());
             double savings = savingsField.getText().isBlank()
                     ? 0
                     : Double.parseDouble(savingsField.getText());
 
-            double totalFixed = draftExpenses.stream()
-                    .mapToDouble(FixedExpense::getAmount)
-                    .sum();
-
-            long days = Long.parseLong(daysLabel.getText());
-
             double disposable = income - savings - totalFixed;
-            double daily = disposable / days;
+            calculatedDailyBudget = disposable / days;
 
-            totalFixedLabel.setText(String.format("%.2f kr", totalFixed));
             disposableLabel.setText(String.format("%.2f kr", disposable));
-            dailyBudgetLabel.setText(String.format("%.2f kr", daily));
+            dailyBudgetLabel.setText(String.format("%.2f kr", calculatedDailyBudget));
 
-        } catch (Exception e) {
-            disposableLabel.setText("-");
-            dailyBudgetLabel.setText("-");
+        } catch (NumberFormatException e) {
+            showAlert("Ugyldigt input", "Indtast tal i budget og opsparing.");
         }
     }
 
-    private void updateTotalsOnly() {
-        double totalFixed = draftExpenses.stream()
-                .mapToDouble(FixedExpense::getAmount)
-                .sum();
+    @FXML
+    private void saveBudget() {
+        if (LoginController.currentUserId == -1) {
+            showAlert("Fejl", "Ingen bruger logget ind.");
+            return;
+        }
 
-        totalFixedLabel.setText(String.format("%.2f kr", totalFixed));
+        int planId = dbManager.insertBudgetPlan(
+                LoginController.currentUserId,
+                periodCombo.getValue(),
+                Double.parseDouble(incomeField.getText()),
+                savingsField.getText().isBlank() ? 0 : Double.parseDouble(savingsField.getText()),
+                totalFixed,
+                days,
+                calculatedDailyBudget,
+                startDate.toString(),
+                endDate.toString()
+        );
+
+        for (FixedExpense e : draftExpenses) {
+            dbManager.insertFixedExpense(planId, e.getName(), e.getAmount());
+        }
+
+        showAlert("Gemt", "Dit budget er nu gemt ✅");
     }
 
-    /* ===================== NAV ===================== */
-
     @FXML
-    private void backButtonOnAction(ActionEvent event) throws IOException {
-        MainPageController mainPageController = new MainPageController();
-        mainPageController.start();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.close();
-    }
-    @FXML
-    private void openBudgetHistory(ActionEvent event) {
+    private void openBudgetHistory() {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/budget_history.fxml")
-            );
-            Scene scene = new Scene(loader.load());
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/budget_history.fxml"));
             Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
             stage.setTitle("Mine budgetter");
-            stage.setScene(scene);
             stage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    @FXML
+    private void backButtonOnAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/mainpage.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private void showAlert(String title, String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
 }
