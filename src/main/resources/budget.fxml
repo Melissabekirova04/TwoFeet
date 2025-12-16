@@ -117,6 +117,14 @@
             <font>
                <Font name="Calibri Bold" size="18.0" />
             </font></Button>
+            <HBox alignment="CENTER_RIGHT" spacing="10">
+                <Button text="Mine budgetter"
+                        onAction="#openBudgetHistory"
+                        style="-fx-background-color: #F49338; -fx-text-fill: white;"
+                        prefHeight="34"
+                        prefWidth="150"/>
+            </HBox>
+
 
         </VBox>
     </children>
